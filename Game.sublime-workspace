@@ -1,0 +1,482 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"get",
+				"getElementById  (function)"
+			],
+			[
+				"margin",
+				"margin-bottom"
+			],
+			[
+				"class",
+				"className"
+			],
+			[
+				"specific",
+				"specificCSS"
+			],
+			[
+				"speci",
+				"specificCSS"
+			],
+			[
+				"list",
+				"list-style-image"
+			],
+			[
+				"font-",
+				"font-weight"
+			],
+			[
+				"padding-",
+				"padding-right"
+			],
+			[
+				"clas",
+				"className"
+			],
+			[
+				"So",
+				"Sorceress"
+			],
+			[
+				"E",
+				"Enchantress"
+			],
+			[
+				"background",
+				"background-color"
+			],
+			[
+				"paddin",
+				"padding-bottom"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"padding",
+				"padding"
+			],
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"port",
+				"portfolio_wrapper"
+			],
+			[
+				"bord",
+				"border-bottom-right-radius"
+			],
+			[
+				"TEXT",
+				"text-transform"
+			],
+			[
+				"backgroun",
+				"background-color"
+			],
+			[
+				"te",
+				"text-align"
+			],
+			[
+				"fon",
+				"font-size"
+			],
+			[
+				"portfolio",
+				"portfolio_wrapper"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"border-radi",
+				"border-bottom-right-radius"
+			],
+			[
+				"background-",
+				"background-image"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "css/main.css",
+			"settings":
+			{
+				"buffer_size": 2061,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "css/modules.css",
+			"settings":
+			{
+				"buffer_size": 2108,
+				"line_ending": "Windows",
+				"name": "div.module {"
+			}
+		},
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 4389,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/main.js",
+			"settings":
+			{
+				"buffer_size": 6571,
+				"line_ending": "Windows",
+				"name": "(function(){"
+			}
+		},
+		{
+			"file": "js/app.js",
+			"settings":
+			{
+				"buffer_size": 943,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 382.0,
+		"selected_items":
+		[
+			[
+				"tid",
+				"Tidy HTML"
+			],
+			[
+				"htm",
+				"Tidy HTML"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 536.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/J/tech-test/js/app/contactApp.coffee",
+		"/J/tech-test/js/app/models.coffee",
+		"/J/tech-test/js/app/collections.coffee",
+		"/J/tech-test/js/app/views.coffee",
+		"/J/tech-test/public/todo/views/todos.js",
+		"/J/tech-test/public/index.php",
+		"/J/tech-test/public/todo/views/app.js",
+		"/J/tech-test/application/config/application.php",
+		"/J/tech-test/application/controllers/todos.php",
+		"/J/tech-test/application/controllers/home.php",
+		"/J/tech-test/application/controllers/base.php",
+		"/J/tech-test/application/start.php",
+		"/C/Users/Roar-Yawn/Downloads/jquery-ui-1.10.3.custom/jquery-ui-1.10.3.custom/index.html",
+		"/C/Users/Roar-Yawn/Downloads/jquery-ui-1.10.3.custom/jquery-ui-1.10.3.custom/css/no-theme/jquery-ui-1.10.3.custom.css",
+		"/C/Users/Roar-Yawn/Downloads/jquery-ui-1.10.3.custom/jquery-ui-1.10.3.custom/js/jquery-1.9.1.js",
+		"/C/Users/Roar-Yawn/Downloads/jquery-ui-1.10.3.custom/jquery-ui-1.10.3.custom/development-bundle/README.md",
+		"/C/xampp/htdocs/PIE/js/PIE.js",
+		"/C/xampp/htdocs/PIE/js/main.js",
+		"/J/Game/index.html",
+		"/J/Game/js/app.js",
+		"/J/Game/css/main.css",
+		"/F/Game/css/reset.css",
+		"/F/Game/css/main.css",
+		"/F/Game/css/utilities.css",
+		"/F/skill tree/v1/style.css",
+		"/F/skill tree/v1/index.html",
+		"/F/skill tree/v1/main.js",
+		"/F/skill tree/arbor-v0.92/demos/atlas/atlas.js",
+		"/F/skill tree/arbor-v0.92/docs/sample-project/main.js",
+		"/F/web_port/js/main.js",
+		"/F/web_port_1/css/main.css",
+		"/F/web_port_1/index.html",
+		"/F/web_port/index.html"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"000",
+			"fff",
+			"border",
+			"bbb",
+			".title"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "css/main.css",
+					"settings":
+					{
+						"buffer_size": 2061,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								771,
+								771
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 576.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "css/modules.css",
+					"settings":
+					{
+						"buffer_size": 2108,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1694,
+								1694
+							]
+						],
+						"settings":
+						{
+							"auto_name": "div.module {",
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1200.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "index.html",
+					"settings":
+					{
+						"buffer_size": 4389,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								549,
+								549
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 384.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "js/main.js",
+					"settings":
+					{
+						"buffer_size": 6571,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6044,
+								6044
+							]
+						],
+						"settings":
+						{
+							"auto_name": "(function(){",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2246.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "js/app.js",
+					"settings":
+					{
+						"buffer_size": 943,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								606,
+								606
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 32.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/C/Users/Roar-Yawn/Documents/GitHub/onegameamonth/1/GameforJanuary.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}

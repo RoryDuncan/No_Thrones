@@ -1,0 +1,131 @@
+/**
+ * Overrides to reset.css
+ */
+
+html, button, input, select, textarea {
+  color: #000000;
+}
+
+::-moz-selection { background: #eee; }
+::selection { background: #000; color:#eee; }
+
+/*****************************************************************************/
+
+/* CURRENT FONTS
+
+font-family: 'Josefin Sans', sans-serif;
+font-family: 'Titillium Web', sans-serif;
+
+
+*/
+a:link {
+  color:#99a;
+}
+a:visited {
+    color:#a1a1a1;
+}
+a:hover {
+  color:#777;
+  border-bottom:3px #eee solid;
+}
+a:active {}
+
+html, body {
+  background-color: #fff;
+  font-family: 'Josefin Sans', Arial, sans-serif;
+  color:#444;
+}
+
+html, body, canvas {
+  padding: 0;
+  margin: 0;
+}
+
+canvas {
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-touch-callout: none;
+  /*
+  background-color:#eee;
+  border: 1px solid #ccc;
+  */
+  border-radius:3px;
+  display: block;
+  margin: 0 auto;
+  user-select: none;
+}
+
+div#loading {
+  color:#000;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight:200;
+  font-size:2em;
+  position:absolute;
+  top:25%;
+  left:43%;
+}
+
+div.main {
+  display:none;
+  height:100%;
+}
+
+div.start {
+  min-width:500px;
+  font-family: 'Titillium Web', sans-serif;
+  height:150px;
+  font-weight:lighter;
+  background-color: #fff;
+  width:100%;
+  margin-bottom:20px;
+}
+div.start h1.title {
+  color: #2f0a0a;
+  font-size:4em;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight:800;
+  width: 50%;
+  text-align:center;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  padding: 0 0;
+  vertical-align: top;
+}
+
+nav {
+  text-align:center;
+  width:50%;
+  margin: 0 auto;
+}
+nav ul li {
+  padding-right:2%;
+  padding-left:2%;
+  display:inline-block;
+  border-left:1px solid #eee;
+}
+nav ul a:nth-of-type(1) li { border-left:none;}
+
+
+nav ul a {
+  font-weight:200;
+  font-size: 1.5em;
+}
+div.game, div.settings {
+  display:none;
+}
+
+.selected {
+  border-bottom: 1px solid #999;
+}
+
+.container {
+  padding:20px 5%;
+  background-color:#fff;
+  font-size:1.4em;
+  width:45%;
+  margin: 0 auto;
+}
+
