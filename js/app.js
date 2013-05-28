@@ -1,5 +1,6 @@
 
 var hideOtherContent = function() {
+  if (system.Modules.gameMenu !== undefined ) system.Modules.gameMenu.close();
   $('.game').hide();
   $('.about').hide();
   $('.settings').hide();
@@ -11,6 +12,9 @@ $(document).ready(function() {
   $('#loading').hide();
   $('.main').fadeIn();
 
+  var StartMenu = new Module(system.Modules, "gameMenu", "Main Menu", system.menu.template, {css:{"width": "500px"}, position: {my:"center center", at:"left+25% top+50%", of:"#screen" }} ); /*** MODULE ***/
+  system.game.states.menu();
+
   //add visual element to selected navigation
   $('nav ul a').click( (function(e) {
     $('.selected').removeClass('selected');
@@ -21,13 +25,13 @@ $(document).ready(function() {
     hideOtherContent();
     $('div.start').css({});
     $('div.game').fadeIn();
-
+    
     var StartMenu = new Module(system.Modules, "gameMenu", "Main Menu", system.menu.template, {css:{"width": "500px"}, position: {my:"center center", at:"left+25% top+50%", of:"#screen" }} ); /*** MODULE ***/
     system.game.states.menu();
 
   }));
 
-  $('#settings').click( (function(){
+  $('#settings').click( (function() {
     hideOtherContent();
     $('div.settings').fadeIn();
   }));

@@ -1,4 +1,6 @@
 
+
+var engine = {};
 var Module = function(group, name, title, content, data) {
 
   //errors and catching
@@ -180,26 +182,11 @@ var System = function() {
 
   };
   this.game.states.initialize = function() {
+    // Engine should be intialized here.
+    engine = new Engine();
+    engine.backdrop();
 
-
-    //Create a stage by getting a reference to the canvas
-    var stage = new createjs.Stage("screen");
-    //Create a Shape DisplayObject
-    var fullRectangle = new createjs.Graphics().beginFill("#000").drawRect(0, 0, canvas.width, canvas.height);
-    var backdrop = new createjs.Shape(fullRectangle);
-
-
-    var circle = new createjs.Shape();
-    circle.graphics.beginFill("#ccc").drawText(0, 0, 40, 40);
-    //Set position of Shape instance.
-    circle.x = circle.y = 200;
-    //Add Shape instance to stage display list.
-
-    stage.addChild(backdrop, circle);
-    //Update stage will render next frame
-    stage.update();
-
-  }
+  };
   this.game.states.story = {};
   this.game.states.mapOverview = {};
   this.game.states.battle = {};
@@ -212,6 +199,7 @@ var System = function() {
 
 console.log("System initialized.")
 };
+
 
 var system = new System();
 

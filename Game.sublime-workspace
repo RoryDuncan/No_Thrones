@@ -115,7 +115,7 @@
 			"file": "css/main.css",
 			"settings":
 			{
-				"buffer_size": 2061,
+				"buffer_size": 2077,
 				"line_ending": "Unix"
 			}
 		},
@@ -123,7 +123,7 @@
 			"file": "css/modules.css",
 			"settings":
 			{
-				"buffer_size": 2108,
+				"buffer_size": 2024,
 				"line_ending": "Windows",
 				"name": "div.module {"
 			}
@@ -132,24 +132,32 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 4389,
+				"buffer_size": 4561,
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/main.js",
-			"settings":
-			{
-				"buffer_size": 6571,
-				"line_ending": "Windows",
-				"name": "(function(){"
 			}
 		},
 		{
 			"file": "js/app.js",
 			"settings":
 			{
-				"buffer_size": 943,
+				"buffer_size": 1264,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/game/System.js",
+			"settings":
+			{
+				"buffer_size": 6428,
+				"line_ending": "Windows",
+				"name": "(function(){"
+			}
+		},
+		{
+			"file": "js/game/Engine.coffee",
+			"settings":
+			{
+				"buffer_size": 514,
 				"line_ending": "Windows"
 			}
 		}
@@ -157,9 +165,17 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 382.0,
+		"height": 392.0,
 		"selected_items":
 		[
+			[
+				"coffee",
+				"Coffee: Show Compiled"
+			],
+			[
+				"coff",
+				"Set Syntax: CoffeeScript"
+			],
 			[
 				"tid",
 				"Tidy HTML"
@@ -181,7 +197,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 536.0
+		"width": 400.0
 	},
 	"console":
 	{
@@ -198,6 +214,7 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Roar-Yawn/Downloads/color-#194D43.less",
 		"/J/tech-test/js/app/contactApp.coffee",
 		"/J/tech-test/js/app/models.coffee",
 		"/J/tech-test/js/app/collections.coffee",
@@ -270,7 +287,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -278,15 +295,15 @@
 					"file": "css/main.css",
 					"settings":
 					{
-						"buffer_size": 2061,
+						"buffer_size": 2077,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								771,
-								771
+								1883,
+								1883
 							]
 						],
 						"settings":
@@ -296,7 +313,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 576.0,
+						"translation.y": 1584.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -306,15 +323,15 @@
 					"file": "css/modules.css",
 					"settings":
 					{
-						"buffer_size": 2108,
+						"buffer_size": 2024,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1694,
-								1694
+								0,
+								0
 							]
 						],
 						"settings":
@@ -334,15 +351,15 @@
 					"file": "index.html",
 					"settings":
 					{
-						"buffer_size": 4389,
+						"buffer_size": 4561,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								549,
-								549
+								4027,
+								4027
 							]
 						],
 						"settings":
@@ -352,25 +369,53 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 384.0,
+						"translation.y": 1280.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "js/main.js",
+					"file": "js/app.js",
 					"settings":
 					{
-						"buffer_size": 6571,
+						"buffer_size": 1264,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6044,
-								6044
+								373,
+								373
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 96.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "js/game/System.js",
+					"settings":
+					{
+						"buffer_size": 6428,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6112,
+								6112
 							]
 						],
 						"settings":
@@ -381,30 +426,30 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2246.0,
+						"translation.y": 2544.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "js/app.js",
+					"buffer": 5,
+					"file": "js/game/Engine.coffee",
 					"settings":
 					{
-						"buffer_size": 943,
+						"buffer_size": 514,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								606,
-								606
+								504,
+								504
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -448,6 +493,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.coffee_compile_output":
+	{
+		"height": 26.0
+	},
 	"replace":
 	{
 		"height": 0.0
