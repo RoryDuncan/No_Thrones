@@ -1,18 +1,181 @@
-var Engine;
+/*
+@class Engine
+@description
+@methods constructor, makeSkybox, test, toggleShadows,
+@params length, width, depth, color
+*/
 
-Engine = function() {
-  this.canvas = window.canvas;
-  this.stage = new createjs.Stage(window.canvas);
-  this.backdrop = function() {
-    var background, canvas, fullRectangle, stage;
-    stage = this.stage;
-    canvas = this.canvas;
-    fullRectangle = new createjs.Graphics().beginFill("#000").drawRect(0, 0, canvas.width, canvas.height);
-    background = new createjs.Shape(fullRectangle);
-    stage.addChild(background);
-    return stage.update();
+var Cube, Engine;
+
+Engine = (function() {
+
+  function Engine(name) {
+    var CAMERA_START, FAR, HEIGHT, NEAR, VIEW_ANGLE, WIDTH, renderer;
+    console.clear();
+    VIEW_ANGLE = 50;
+    WIDTH = 1000;
+    HEIGHT = 600;
+    NEAR = 0.1;
+    FAR = 1000;
+    CAMERA_START = 100;
+    this.name = name;
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(VIEW_ANGLE, WIDTH / HEIGHT, NEAR, FAR);
+    this.renderer = renderer = new THREE.WebGLRenderer();
+    this.renderer.setSize(WIDTH, HEIGHT);
+    if (!($('canvas')[0])) {
+      $('.game').append(renderer.domElement);
+      $('canvas').attr({
+        'id': "screen"
+      });
+    }
+    this.camera.position.z = CAMERA_START;
+    this.camera.position.y = 50;
+    this.camera.rotation.x = -0.33;
+    _.bindAll(this, "addToScene", "update", "draw", "makeSkybox", "ignition", "test", "toggleShadows");
+  }
+
+  Engine.prototype.makeSkybox = function(fogColor) {
+    var color, fog;
+    color = fogColor || 0x80b4e5;
+    this.renderer.setClearColor(color, 1);
+    this.renderer.clear();
+    fog = new THREE.Fog(color, 50, 300);
+    this.scene.fog = fog;
+    return this.test();
   };
-  return console.log("Engine started. Vrroom.");
-};
+
+  Engine.prototype.animations = {
+    bounce: function(value) {}
+  };
+
+  Engine.prototype.test = function() {
+    this.world.skybox = new Cube(10, 10, 10, 0x73432c);
+    this.addToScene([this.world.skybox.mesh]);
+    console.log(this.world.skybox);
+    this.spotLight = new THREE.SpotLight(0xfffff0);
+    this.spotLight.position.set(0, 1000, 800);
+    this.spotLight.shadowMapWidth = 1024;
+    this.spotLight.shadowMapHeight = 1024;
+    this.spotLight.shadowCameraNear = 500;
+    this.spotLight.shadowCameraFar = 4000;
+    this.spotLight.shadowCameraFov = 30;
+    this.planeGeo = new THREE.PlaneGeometry(400, 400, 10, 10);
+    this.planeMat = new THREE.MeshLambertMaterial({
+      color: 0x5b9cd8
+    });
+    this.plane = new THREE.Mesh(this.planeGeo, this.planeMat);
+    this.plane.rotation.x = -Math.PI / 2;
+    this.plane.position.y = -10;
+    this.plane.receiveShadow = true;
+    this.addToScene([this.plane, this.spotLight]);
+    return this.ignition();
+  };
+
+  Engine.prototype.toggleShadows = function() {
+    if (this.renderer.shadowMapEnabled === false) {
+      this.renderer.shadowMapEnabled = true;
+    }
+    if (this.spotLight.castShadow === false) {
+      this.spotLight.castShadow = true;
+    }
+    if (this.world.skybox.castShadow === false) {
+      this.world.skybox.castShadow = true;
+    }
+    if (this.world.skybox.receiveShadow === false) {
+      return this.world.skybox.receiveShadow = true;
+    }
+  };
+
+  Engine.prototype.ignition = function() {
+    var ENGINE;
+    ENGINE = this;
+    return ENGINE.loop(ENGINE.draw);
+  };
+
+  /*
+  @method Engine.addToScene
+  @paremtype array
+  @param items
+  */
+
+
+  Engine.prototype.addToScene = function(items) {
+    var x, _i, _len, _results;
+    if (items === null || items === void 0) {
+      return console.warn("Improper use of addToScene.");
+    }
+    _results = [];
+    for (_i = 0, _len = items.length; _i < _len; _i++) {
+      x = items[_i];
+      _results.push(this.scene.add(x));
+    }
+    return _results;
+  };
+
+  Engine.prototype.update = function() {
+    console.log(THREE.clock);
+    return this.world.skybox.mesh.position.y = ~~Math.random(0, 100);
+  };
+
+  Engine.prototype.draw = function() {
+    this.update();
+    return this.renderer.render(this.scene, this.camera);
+  };
+
+  /*
+  @method Engine.loop
+  @paremtype function instance
+  @param The name of the function that is looped
+  */
+
+
+  Engine.prototype.loop = function(function_to_be_looped) {
+    var requestAnimationFrame, start, step;
+    requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    window.requestAnimationFrame = requestAnimationFrame;
+    start = window.mozAnimationStartTime || Date.now();
+    step = function(timestamp) {
+      var progress;
+      progress = timestamp - start;
+      function_to_be_looped();
+      if (progress < 2000) {
+        return requestAnimationFrame(step);
+      }
+    };
+    return requestAnimationFrame(step);
+  };
+
+  Engine.prototype.entities = {};
+
+  Engine.prototype.world = {
+    blocks: [],
+    skybox: {}
+  };
+
+  return Engine;
+
+})();
+
+/*
+@class Cube
+@methods constructor
+@params length, width, depth, color
+*/
+
+
+Cube = (function() {
+
+  function Cube(l, w, d, colorInHex) {
+    this.geometry = new THREE.CubeGeometry(l, w, d);
+    this.material = new THREE.MeshLambertMaterial({
+      color: colorInHex
+    });
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
+  }
+
+  return Cube;
+
+})();
 
 // Generated by CoffeeScript 1.5.0-pre

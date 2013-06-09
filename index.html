@@ -23,6 +23,7 @@
   <link rel="stylesheet" media="print" href="css/print.css" />
   <link rel="stylesheet" media="print"  href="css/jquery-ui-1.10.3.custom.min.css" />
 
+
 </head>
 <body>
   <!-- Prompt IE 6/7/8 users to install Chrome Frame.
@@ -76,10 +77,12 @@
       </div>
     </div>
     <div class="game">
+      
       <noscript>You must have JavaScript enabled to use this site.</noscript>
-      <canvas id="screen" width="1000" height="600" data-resize="full">
+      <!--<canvas id="screen" data-resize="full">
         Your browser does not support the &lt;canvas&gt; element!
       </canvas>
+      -->
     </div> <!-- /game -->
 
   </div> <!-- /main -->
@@ -87,15 +90,21 @@
 
   <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.9.0.min.js"><\/script>')</script>
+  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.9.1.min.js"><\/script>')</script>
   <script src="js/libs/jquery-ui-1.10.3.custom.min.js"></script>
 
   <script src=""></script>
+<!-- Pre-Requisites -->
 
-<!-- 'Engine' -->
-  <script src="js/libs/createjs-2013.05.14.min.js"></script>
+<script src="js/libs/underscore-min.js"></script>
+
+<!-- 'Resources' -->
+
+  <script src="js/libs/detector.js"></script>
+  <script src="js/libs/three.min.js"></script>
 
   <!-- Application -->
+
   <script src="js/game/Engine.js"></script>
   <script src="js/game/System.js"></script>
 

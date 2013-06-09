@@ -42,6 +42,7 @@ html, body, canvas {
 }
 
 canvas {
+  border: 1px solid #aaa;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -129,3 +130,9 @@ div.about, div.settings {
   margin: 0 auto;
 }
 
+div.game {
+  width:100%;
+  min-width:600px;
+  min-height:400px;
+  background-color: #fff;
+}

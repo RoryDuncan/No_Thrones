@@ -1,7 +1,12 @@
 
+//-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+//
+//    This is a non-game related page. system.js will keep track of the interface, as well as initiate the game engine, and track modules.
+//    If this contains game code other than initializers and user interface, im doing it wrong.
+//
+//-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-var engine = {};
-var Module = function(group, name, title, content, data) {
+Module = function(group, name, title, content, data) {
 
   //errors and catching
   if (!group) return console.error("Module called without a group. A group is vital for managing modules.");
@@ -21,7 +26,7 @@ var Module = function(group, name, title, content, data) {
 
     // create() controls the "view" of the module
     // this long line cold probably be resolved with a templating lib
-    $('<div class="module" id="'+_name + '"><div class="modTitle" >'+_title+'<div class="modClose" id="'+_name+'"><img src="img/module_close.png" alt="close" longdesc="Close this window." title="Close" /></div></div><div class="modText">'+ _content + '</div></div>').appendTo('body')[0];
+    $('<div class="module" id="'+_name + '"><div class="modTitle" >'+_title+'<div class="modOptions" id="'+_name+'"><img class="min" src="img/module_close.png" height="5px" width="16px" alt="minimize" longdesc="Minimize this window." title="Minimize" /><img class="close" src="img/module_close.png" alt="close" longdesc="Close this window." title="Close" /></div></div><div class="modText">'+ _content + '</div></div>').appendTo('body')[0];
     
     // Draggable Option
     if (_data.fixed !== true) $('.module').draggable();
@@ -35,20 +40,48 @@ var Module = function(group, name, title, content, data) {
 
     return;
   };
+  this.move = function(x, y) {
 
-  //inverse of create
-
-  this.close = function() {
-    //first, remove from DOM
-    var className = "div#" + name + ".module";
-    $(className).remove();
-    delete group[name]; //remove from list of modules
-
-    delete name;        //remove reference
-    return console.log(name + " deleted.");
   };
-  //minimize / maximize of module. Bound to double clicking of title bar.
-  this.toggle = function() {
+  this.hide = function() {
+
+    // hide() will only hide it from the DOM, making it unaccessable unless using "ModuleName".show()
+
+     var className = "div#" + name + ".module";
+     $(className).hide();
+  };
+  this.show = function() {
+    // undoes hide()
+     var className = "div#" + name + ".module";
+     $(className).fadeIn();
+  };
+  this.close = function() {
+
+    // close() is a permenant close, as in the variable will be set up to be garbage collected.
+    // 
+    // Check to see if it's a module that WE want closing. If it's not, just hide it.
+    //    Having this check removes a layer of difference we would need between
+    //    modules that are temporary and modules that aren't.
+
+    if (system.Modules[name].data.immortal === true) {
+
+      system.Modules[name].hide() // the user won't know the difference. HE HE HE
+    }
+    else {
+      //  first, remove from DOM
+      var className = "div#" + name + ".module";
+      $(className).remove();
+      delete group[name]; //remove from list of modules
+
+      delete name;        //remove reference
+      return console.log(name + " deleted.");
+    }
+  };
+  
+  this.minimize = function() {
+
+    // minimize / maximize of module. Bound to double clicking of title bar.
+
     var className = "div#" + name + ".module";
     if ($(className).css("height") !== "21px") {
       $(className).css({"min-height":"18px", "height": "21px", "width": "300px", "overflow":"hidden"});
@@ -68,49 +101,45 @@ var Module = function(group, name, title, content, data) {
   this.title = title || "Information";
 
   // Data deals with the 'settings' of the module like position, fixed, CSS, etc.
-  this.data = data || { css: {}, fixed: false };
+  this.data = data || { css: {}, fixed: false, immortal: false };
 
   // Make it happen on the webpage, then add to list of modules
   this.create(this.name, this.title, this.content, this.data);
   group[name] = this;
 
-  // Events
+  //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-//
+  //              EVENTS                     //
+  //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-//
 
-  $('div#'+name+'.module .modTitle').dblclick( this.toggle);
-  $('div#'+name+'.modClose').click( this.close);
+  $('div#'+name+'.module .modTitle').dblclick( this.minimize);
+  $('div#'+name+'.module .modTitle .modOptions img.min').click(this.minimize)
+  $('div#'+name+'.module .modTitle .modOptions img.close').click( this.close);
 
 };
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+//
+//
+//
 
 var System = function() {
 
-  this.point = this; //incase nested or anonymous functions need the instance dynamically.
-  this.screen = {};
-  this.loop = function() {
-    (function(){
-    var requestAnimationFrame = window.requestAnimationFrame
-     || window.mozRequestAnimationFrame  //FF
-     || window.webkitRequestAnimationFrame // webkits
-     || window.msRequestAnimationFrame; //IE
-    window.requestAnimationFrame = requestAnimationFrame;
-  })();
-    var start = window.mozAnimationStartTime || Date.now();
-     
-    function step(timestamp) {
-      //console.log("Animation Update.", Math.round(timestamp/1000), "seconds");
-      var progress = timestamp - start;
+  // Settings, that can be set by the user in the settings page.
 
-      if (progress < 2000) {
-        requestAnimationFrame(step);
-      }
-    }
-   
-  requestAnimationFrame(step);
+  this.settings = {
+    defaults: { width: "600", height: "600", fullscreen: false},
+    width: "600",
+    height: "600",
+    fullscreen: false
+  }
 
-  };
+
+  // incase nested or anonymous functions
+  // need the instance dynamically.
+  this.point = this; 
+
+  // May be removed if Engine 'handles' it
+
   this.update = function() {};
   this.menu = {};
   this.menu.data = {
@@ -122,8 +151,9 @@ var System = function() {
   this.menu.play = function(e){
 
     console.log("Starting Game");
-    system.Modules.gameMenu.close();
+    system.Modules.StartMenu.close();
     system.game.states.initialize();
+    $('html, body').animate({scrollTop: $('div.game').offset().top + 'px'}, 'fast');
 
     
   };
@@ -166,10 +196,6 @@ var System = function() {
 
   this.game.states.menu = function(){
 
-    // assign canvas to a global variable, for conveinence .
-    // -------- Provisionable, as *can* be done at $(document).ready
-    window.canvas = document.getElementById("screen");
-    window.ctx = canvas.getContext('2d');
     // then watch for the items to be clicked
     $('a#menu_' + system.menu.data.item1).click(system.menu.play);    //play
     $('a#menu_' + system.menu.data.item2).click(system.menu.load);    //load
@@ -182,9 +208,15 @@ var System = function() {
 
   };
   this.game.states.initialize = function() {
-    // Engine should be intialized here.
-    engine = new Engine();
-    engine.backdrop();
+
+    // Engine should be initialized here
+    var init = _.once( (function() {
+
+      window.engine = new Engine("engine");
+    }))
+
+    init();
+    engine.makeSkybox();
 
   };
   this.game.states.story = {};
@@ -202,4 +234,5 @@ console.log("System initialized.")
 
 
 var system = new System();
+
 
