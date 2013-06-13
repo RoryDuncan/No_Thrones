@@ -143,7 +143,7 @@ var System = function() {
   this.update = function() {};
   this.menu = {};
   this.menu.data = {
-    item1: "Play",
+    item1: "Start",
     item2: "Load",
     item3: "Settings",
     item4: "Exit"

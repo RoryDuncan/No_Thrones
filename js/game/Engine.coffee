@@ -14,22 +14,46 @@ class Engine
     # engine is the instance,
     # Engine is the Class,
     #     and
-    # ENGINE is the pointer.
+    # pointer is the pointer.
+    window.pointer = @
 
-
-
-
-    VIEW_ANGLE = 50
+    VIEW_ANGLE = 33
     WIDTH = 1000
     HEIGHT = 600
     NEAR = 0.1
-    FAR = 1000
-    CAMERA_START = 100
+    FAR = 5000
+    CAMERA_START = 300
+
+    ###
+      @Data until created elsewhere
+    ###
+
+    @settings =
+      statics:
+        viewAngle: VIEW_ANGLE
+        width: WIDTH
+        height: HEIGHT
+        near: NEAR
+        far: FAR
+      world:
+        grid:
+          color: 0xFFFF55
+          margin: 1
+        block:
+          width: 25
+          depth: 25
+          height: 15
+          color: 0x2f5b2b
+
+
 
     @name = name
     @scene = new THREE.Scene()
     @camera = new THREE.PerspectiveCamera( VIEW_ANGLE, WIDTH / HEIGHT, NEAR, FAR)
-    @renderer = renderer = new THREE.WebGLRenderer()
+    @clock = new THREE.Clock( true )
+    @clock.start()
+    console.log @camera
+    @renderer = renderer = new THREE.WebGLRenderer({ antialaising: true })
     @renderer.setSize(WIDTH, HEIGHT )
 
     # inject the canvas
@@ -38,46 +62,138 @@ class Engine
       $('canvas').attr({'id':"screen"})
 
     @camera.position.z = CAMERA_START
-    @camera.position.y = 50
-    @camera.rotation.x = - 0.33
+    @camera.position.y = 200
+    @camera.position.x = -150
+    @camera.rotation.x = -0.45
+    @camera.lookAt(@scene.position)
 
-    _.bindAll @, "addToScene", "update", "draw", "makeSkybox", "ignition", "test", "toggleShadows" ##
+    # Any method that 'this' needs to be in
+    _.bindAll @, "addToScene", "update", "draw", "makeSkybox", "ignition", "test", "toggleShadows"
 
-  makeSkybox: (fogColor) ->
+  makeSkybox: ( fogColor ) ->
 
-    color = fogColor or 0x80b4e5
+    color = fogColor or 0xeeeeee
 
     @renderer.setClearColor(color, 1)
     @renderer.clear()
 
-    fog = new THREE.Fog( color, 50, 300 )
+    fog = new THREE.Fog( color, 100, 1200 )
     @scene.fog = fog
 
     @test()
-  animations:
+      
+  controller:
 
-    bounce: ( value ) ->
+    moveCamera: ->
+      # WASD keyboard control
+
+      amount = 100
+      duration = 1
+      progress = 0
 
 
+      eng = pointer
 
+      $(document).keydown (e) ->
+        console.log e.which
+        if e.which is 65 or e.keyCode is 65
+          pan "x", true
+        if e.which is 87 or e.keyCode is 87
+          pan "z", true
+        if e.which is 68or e.keyCode is 68
+          pan "x", false
+        if e.which is 83 or e.keyCode is 83
+          pan "z", false
+        else return
+
+      pan = (axis, add) ->
+
+        start = eng.camera.position[axis]
+
+        # Animate will handle the transition
+        animate = (item) ->
+
+          dur = 1000*item.time
+          end = +new Date() + dur
+
+          step = ->
+
+            current = +new Date()
+            remaining = end - current
+            if remaining < 60
+              item.run(1)
+              return
+            else 
+
+              rate = 1 - remaining / dur
+              item.run(rate)
+            requestAnimationFrame(step)
+          step()
+
+        # the logic of the direction and transitioning
+
+        if add is true
+          animate
+            time: duration
+            run: (rate) ->
+              eng.camera.position[axis] = start - (amount * rate)
+              eng.camera.lookAt( eng.scene.position )
+
+        if add is false
+          animate
+            time: duration
+            run: (rate) ->
+              eng.camera.position[axis] = start + (amount * rate)
+              eng.camera.lookAt( eng.scene.position )
+          
+        else return
+
+
+        ###
+        if add is true
+          for c in [1..frames]
+            requestAnimationFrame ->
+              eng.camera.position[axis] += (amount / frames)
+              console.log "Panning?"
+              
+
+        if add is false
+          for c in [1..frames] 
+            
+            requestAnimationFrame ->
+              eng.camera.position[axis] -= (amount / frames)
+        else return
+        ###
+      return
+
+  entities:
+    all: {}
+    visible: []
 
       
-
+  world:
+    blocks: [] # list for the environment
+    skybox: {}
 
   test: ->
 
-    @world.skybox = new Cube 10,10,10, 0x73432c
+    @controller.moveCamera()
+    console.log @scene
+
+    @world.skybox = new Cube {width:25, depth:25, height:10,}, {color:0x73432c}
+    unit = new Entity "unit", "js/game/textures/sprites/test.gif", 36, 36
+
     @addToScene [@world.skybox.mesh]
     console.log @world.skybox
 
     # light
     # only spot lights enable shadows
-    @spotLight = new THREE.SpotLight( 0xfffff0 )
-    @spotLight.position.set( 0, 1000, 800 )
+    @spotLight = new THREE.SpotLight( 0xffffff0 )
+    @spotLight.position.set( 0, 1000, 300 )
 
     # shadow config
-    @spotLight.shadowMapWidth = 1024
-    @spotLight.shadowMapHeight = 1024
+    @spotLight.shadowMapWidth = 2048
+    @spotLight.shadowMapHeight = 2048
     @spotLight.shadowCameraNear = 500
     @spotLight.shadowCameraFar = 4000
     @spotLight.shadowCameraFov = 30
@@ -85,16 +201,30 @@ class Engine
     #@scene.add( @spotLight )
 
     # plane
-    @planeGeo = new THREE.PlaneGeometry(400, 400, 10, 10)
-    @planeMat = new THREE.MeshLambertMaterial({color: 0x5b9cd8})
-    @plane = new THREE.Mesh( @planeGeo, @planeMat)
-    @plane.rotation.x = - Math.PI/2
-    @plane.position.y = - 10
-    @plane.receiveShadow = true
+    planeGeo = new THREE.PlaneGeometry(1, 1, 10, 10)
+    planeMat = new THREE.MeshLambertMaterial({color: 0xe6e6e6})
+    plane = new THREE.Mesh( planeGeo, planeMat)
+    plane.rotation.x = -Math.PI/2
+    plane.position.y = -30
+    plane.receiveShadow = true
 
     #@scene.add @plane
 
-    @addToScene([@plane, @spotLight])
+    @addToScene([plane, @spotLight])
+
+    stage = new Stage " test"
+    stage.makeRandomData(10,10,10)
+    stage.build 
+      width: @settings.world.block.width
+      height:@settings.world.block.height
+      depth:@settings.world.block.depth
+    ,
+      color: @settings.world.block.color
+      wireframe: true
+      wireframeLinewidth: 5.0
+    stage.addToScene()
+
+    console.log stage
 
     @ignition()
   toggleShadows: ->
@@ -111,8 +241,8 @@ class Engine
 
   ignition: ->
     #ignition is used to start looping the engine's drawing process
-    ENGINE = @
-    ENGINE.loop( ENGINE.draw )
+    pointer = @
+    pointer.loop( pointer.draw )
 
   ###
   @method Engine.addToScene
@@ -129,9 +259,7 @@ class Engine
 
 
   update: () ->
-    console.log THREE.clock
-
-    @world.skybox.mesh.position.y = ~~Math.random(0,100)
+    #pointer.world.skybox.mesh.position.y += 0
 
   draw: () ->
 
@@ -140,8 +268,8 @@ class Engine
     # access via the global variable 'engine' because it goes through Engine.loop(),
     # which changes *this* to the Window object,and is a better alternative
     # than daisy-chaining through function parameters
-
     @renderer.render(@scene, @camera)
+    return
 
   ###
   @method Engine.loop
@@ -149,9 +277,6 @@ class Engine
   @param The name of the function that is looped
   ###
   loop: (function_to_be_looped) ->
-
-    requestAnimationFrame = window.requestAnimationFrame or window.mozRequestAnimationFrame or window.webkitRequestAnimationFrame or window.msRequestAnimationFrame
-    window.requestAnimationFrame = requestAnimationFrame
 
     start = window.mozAnimationStartTime or Date.now()
 
@@ -162,20 +287,30 @@ class Engine
         requestAnimationFrame(step)
     requestAnimationFrame(step)
 
-  entities: {}
-  world:
-    blocks: [] # list for the environment
-    skybox: {}
 
-###
-@class Cube
-@methods constructor
-@params length, width, depth, color
-###
 
-class Cube
+  destructObjects: (object) ->
+    switch true
+      when object instanceof THREE.Object3D
+        @destructObjects(child) for child in object.children
+        object.parent?.remove(object)
+        object.deallocate()
+        object.geometry?.deallocate()
+        @renderer.deallocateObject(object)
+        object.destruct?(this)
 
-  constructor: (l, w, d, colorInHex) ->
-    @geometry = new THREE.CubeGeometry(l,w,d)
-    @material = new THREE.MeshLambertMaterial( { color: colorInHex } )
-    @mesh = new THREE.Mesh( @geometry, @material )
+      when object instanceof THREE.Material
+        object.deallocate()
+        @renderer.deallocateMaterial(object)
+
+      when object instanceof THREE.Texture
+        object.deallocate()
+        @renderer.deallocateTexture(object)
+
+      when object instanceof THREE.EffectComposer
+        @destructObjects(object.copyPass.material)
+        object.passes.forEach (pass) =>
+          @destructObjects(pass.material) if pass.material
+          @renderer.deallocateRenderTarget(pass.renderTarget) if pass.renderTarget
+          @renderer.deallocateRenderTarget(pass.renderTarget1) if pass.renderTarget1
+          @renderer.deallocateRenderTarget(pass.renderTarget2) if pass.renderTarget2

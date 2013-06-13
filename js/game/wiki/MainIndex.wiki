@@ -1,0 +1,14 @@
+
+reference: https://github.com/PogiNate/SublimeWiki
+NoThrones
+	Classes:
+		System
+			Description
+			Methods
+		Engine
+
+		Atomic:
+			Cube
+			Entity
+		
+
