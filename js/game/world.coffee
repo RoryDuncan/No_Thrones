@@ -42,27 +42,45 @@ class Stage
     x = 0
     y = 0
     z = 0 
-
     console.groupCollapsed "Creating Data"
 
+    # first make a heightMap
+    # which is an array with the heights of each x,y coordinate
+    # Example:
+    # [ 1, 1, 2] <- coordinates 0,0 and 1,0 are 1 layer high,
+    #               while coordinate 2,0 is 2 layers high
+
+    # total = the amount of times everything needs iterating, -1 because of 0-index
     total = (height*width) - 1
-    for layers in [ 0..total]
+    @heightMap = []
+    for hmap in [0..total]
+      @heightMap.push 1 + ~~(Math.random()*3)
 
-      # randomize
-      stacks = 0#~~( Math.random()*maxZ )
+    console.log @heightMap
+    
+    #another for loop is needed.
+    for layer in [1..maxZ]
+      x = 0
+      z = 0
+      for height in @heightMap
 
-      z += 1 if x is width # increment for every complete row
-      x = 0 if x is width # after the y increment, reset x to start to the first in the row
-     
 
-      id = ++@size
+        z += 1 if x is width # increment for every complete row
+        x = 0 if x is width # after the y increment, reset x to start to the first in the row
+       
 
-      @data.push
-        'id': id
-        'x' : x
-        'y' : stacks
-        'z' : z
-      x++
+        id = ++@size
+        visible = true
+        visible = false if layer > height
+
+        @data.push
+          'id': id
+          'x' : x
+          'y' : layer
+          'z' : z
+          'heightMap': height
+          'visible' : visible
+        x++
 
     console.log @data
     console.groupEnd "Creating Data"
@@ -85,7 +103,10 @@ class Stage
     console.groupCollapsed "Building..."
     for datum in @data
       position = new THREE.Vector3( datum.x*cubeGeometry.width, datum.y*cubeGeometry.height, datum.z*cubeGeometry.depth )
-      actor = new Cube(cubeGeometry, cubeMaterial, position)
+      actor = new Cube(cubeGeometry, cubeMaterial, position) if datum.visible is true
+      actor = new Cube(cubeGeometry, {wireframe:true}, position) if datum.visible is false
+      
+
       actor.from = datum
       @actors.push actor
     
@@ -95,7 +116,11 @@ class Stage
   addToScene: ->
     return console.error "Not enough actors." if @actors.length is 0
     for eachActor in @actors
-      eachActor.addToScene()
+      # eachActor.addToScene()
+      if eachActor.from.visible is true
+        eachActor.addToScene()
+      else continue
+
   toObject: ->
     _.object @data
     console.log @data

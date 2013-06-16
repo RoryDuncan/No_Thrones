@@ -13,9 +13,9 @@ Engine = (function() {
     var CAMERA_START, FAR, HEIGHT, NEAR, VIEW_ANGLE, WIDTH, renderer;
     console.clear();
     window.pointer = this;
-    VIEW_ANGLE = 33;
-    WIDTH = 1000;
-    HEIGHT = 600;
+    VIEW_ANGLE = 35;
+    WIDTH = 1600;
+    HEIGHT = 1000;
     NEAR = 0.1;
     FAR = 5000;
     CAMERA_START = 300;
@@ -39,8 +39,8 @@ Engine = (function() {
         block: {
           width: 25,
           depth: 25,
-          height: 15,
-          color: 0x2f5b2b
+          height: 5,
+          color: 0x55831e
         }
       }
     };
@@ -59,12 +59,14 @@ Engine = (function() {
       $('canvas').attr({
         'id': "screen"
       });
+      $('canvas').css({
+        "width": "1000px",
+        "height": "625px"
+      });
     }
     this.camera.position.z = CAMERA_START;
     this.camera.position.y = 200;
     this.camera.position.x = -150;
-    this.camera.rotation.x = -0.45;
-    this.camera.lookAt(this.scene.position);
     _.bindAll(this, "addToScene", "update", "draw", "makeSkybox", "ignition", "test", "toggleShadows");
   }
 
@@ -73,96 +75,96 @@ Engine = (function() {
     color = fogColor || 0xeeeeee;
     this.renderer.setClearColor(color, 1);
     this.renderer.clear();
-    fog = new THREE.Fog(color, 100, 1200);
+    fog = new THREE.Fog(color, 0, 1200);
     this.scene.fog = fog;
     return this.test();
   };
 
-  Engine.prototype.controller = {
-    moveCamera: function() {
-      var amount, duration, eng, pan, progress;
-      amount = 100;
-      duration = 1;
-      progress = 0;
-      eng = pointer;
-      $(document).keydown(function(e) {
-        console.log(e.which);
-        if (e.which === 65 || e.keyCode === 65) {
-          pan("x", true);
-        }
-        if (e.which === 87 || e.keyCode === 87) {
-          pan("z", true);
-        }
-        if (e.which === 68 || e.keyCode === 68) {
-          pan("x", false);
-        }
-        if (e.which === 83 || e.keyCode === 83) {
-          return pan("z", false);
-        } else {
+  Engine.prototype.controller = {};
 
-        }
-      });
-      pan = function(axis, add) {
-        var animate, start;
-        start = eng.camera.position[axis];
-        animate = function(item) {
-          var dur, end, step;
-          dur = 1000 * item.time;
-          end = +new Date() + dur;
-          step = function() {
-            var current, rate, remaining;
-            current = +new Date();
-            remaining = end - current;
-            if (remaining < 60) {
-              item.run(1);
-              return;
-            } else {
-              rate = 1 - remaining / dur;
-              item.run(rate);
-            }
-            return requestAnimationFrame(step);
-          };
-          return step();
-        };
-        if (add === true) {
-          animate({
-            time: duration,
-            run: function(rate) {
-              eng.camera.position[axis] = start - (amount * rate);
-              return eng.camera.lookAt(eng.scene.position);
-            }
-          });
-        }
-        if (add === false) {
-          return animate({
-            time: duration,
-            run: function(rate) {
-              eng.camera.position[axis] = start + (amount * rate);
-              return eng.camera.lookAt(eng.scene.position);
-            }
-          });
-        } else {
-
-        }
-        /*
+  /*
+    moveCamera: ->
+      # WASD keyboard control
+  
+      amount = 100
+      duration = 1
+      progress = 0
+  
+  
+      eng = pointer
+  
+      $(document).keydown (e) ->
+        if e.which is 65 or e.keyCode is 65
+          pan "x", true
+        if e.which is 87 or e.keyCode is 87
+          pan "z", true
+        if e.which is 68or e.keyCode is 68
+          pan "x", false
+        if e.which is 83 or e.keyCode is 83
+          pan "z", false
+        else return
+  
+      pan = (axis, add) ->
+  
+        start = eng.camera.position[axis]
+  
+        # Animate will handle the transition
+        animate = (item) ->
+  
+          dur = 1000*item.time
+          end = +new Date() + dur
+  
+          step = ->
+  
+            current = +new Date()
+            remaining = end - current
+            if remaining < 60
+              item.run(1)
+              return
+            else 
+  
+              rate = 1 - remaining / dur
+              item.run(rate)
+            requestAnimationFrame(step)
+          step()
+  
+        # the logic of the direction and transitioning
+  
+        if add is true
+          animate
+            time: duration
+            run: (rate) ->
+              eng.camera.position[axis] = start - (amount * rate)
+              eng.camera.lookAt( eng.scene.position )
+  
+        if add is false
+          animate
+            time: duration
+            run: (rate) ->
+              eng.camera.position[axis] = start + (amount * rate)
+              eng.camera.lookAt( eng.scene.position )
+          
+        else return
+  
+  
+        
         if add is true
           for c in [1..frames]
             requestAnimationFrame ->
               eng.camera.position[axis] += (amount / frames)
               console.log "Panning?"
               
-        
+  
         if add is false
           for c in [1..frames] 
             
             requestAnimationFrame ->
               eng.camera.position[axis] -= (amount / frames)
         else return
-        */
+        
+      return
+  */
 
-      };
-    }
-  };
 
   Engine.prototype.entities = {
     all: {},
@@ -175,9 +177,12 @@ Engine = (function() {
   };
 
   Engine.prototype.test = function() {
-    var plane, planeGeo, planeMat, stage, unit;
-    this.controller.moveCamera();
-    console.log(this.scene);
+    var controls, dir, plane, planeGeo, planeMat, unit;
+    console.group("test");
+    controls = new THREE.TrackballControls(this.camera);
+    controls.staticMoving = true;
+    controls.keys = [97, 115, 100];
+    controls.addEventListener('change', this.renderer.render);
     this.world.skybox = new Cube({
       width: 25,
       depth: 25,
@@ -186,8 +191,6 @@ Engine = (function() {
       color: 0x73432c
     });
     unit = new Entity("unit", "js/game/textures/sprites/test.gif", 36, 36);
-    this.addToScene([this.world.skybox.mesh]);
-    console.log(this.world.skybox);
     this.spotLight = new THREE.SpotLight(0xffffff0);
     this.spotLight.position.set(0, 1000, 300);
     this.spotLight.shadowMapWidth = 2048;
@@ -204,7 +207,7 @@ Engine = (function() {
     plane.position.y = -30;
     plane.receiveShadow = true;
     this.addToScene([plane, this.spotLight]);
-    stage = new Stage(" test");
+    window.stage = new Stage(" test");
     stage.makeRandomData(10, 10, 10);
     stage.build({
       width: this.settings.world.block.width,
@@ -212,9 +215,11 @@ Engine = (function() {
       depth: this.settings.world.block.depth
     }, {
       color: this.settings.world.block.color,
-      wireframe: true,
+      wireframe: false,
       wireframeLinewidth: 5.0
     });
+    dir = new THREE.ArrowHelper(new THREE.Vector3(0, -2, 0), new THREE.Vector3(0, 100, 0), 30, 0x0077cc);
+    this.scene.add(dir);
     stage.addToScene();
     console.log(stage);
     return this.ignition();
@@ -261,7 +266,9 @@ Engine = (function() {
     return _results;
   };
 
-  Engine.prototype.update = function() {};
+  Engine.prototype.update = function() {
+    return this.camera.lookAt(this.scene.position);
+  };
 
   Engine.prototype.draw = function() {
     this.update();

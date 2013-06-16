@@ -34,7 +34,7 @@ Stage = (function() {
 
 
   Stage.prototype.makeRandomData = function(height, width, maxZ) {
-    var id, layers, stacks, total, x, y, z, _i;
+    var hmap, id, layer, total, visible, x, y, z, _i, _j, _k, _len, _ref;
     if (height === void 0) {
       return console.error("Arguments not specified. Stage.makeRandomData(h,w,maxZ) arguments needed.");
     }
@@ -59,22 +59,38 @@ Stage = (function() {
     z = 0;
     console.groupCollapsed("Creating Data");
     total = (height * width) - 1;
-    for (layers = _i = 0; 0 <= total ? _i <= total : _i >= total; layers = 0 <= total ? ++_i : --_i) {
-      stacks = 0;
-      if (x === width) {
-        z += 1;
+    this.heightMap = [];
+    for (hmap = _i = 0; 0 <= total ? _i <= total : _i >= total; hmap = 0 <= total ? ++_i : --_i) {
+      this.heightMap.push(1 + ~~(Math.random() * 3));
+    }
+    console.log(this.heightMap);
+    for (layer = _j = 1; 1 <= maxZ ? _j <= maxZ : _j >= maxZ; layer = 1 <= maxZ ? ++_j : --_j) {
+      x = 0;
+      z = 0;
+      _ref = this.heightMap;
+      for (_k = 0, _len = _ref.length; _k < _len; _k++) {
+        height = _ref[_k];
+        if (x === width) {
+          z += 1;
+        }
+        if (x === width) {
+          x = 0;
+        }
+        id = ++this.size;
+        visible = true;
+        if (layer > height) {
+          visible = false;
+        }
+        this.data.push({
+          'id': id,
+          'x': x,
+          'y': layer,
+          'z': z,
+          'heightMap': height,
+          'visible': visible
+        });
+        x++;
       }
-      if (x === width) {
-        x = 0;
-      }
-      id = ++this.size;
-      this.data.push({
-        'id': id,
-        'x': x,
-        'y': stacks,
-        'z': z
-      });
-      x++;
     }
     console.log(this.data);
     console.groupEnd("Creating Data");
@@ -103,7 +119,14 @@ Stage = (function() {
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       datum = _ref[_i];
       position = new THREE.Vector3(datum.x * cubeGeometry.width, datum.y * cubeGeometry.height, datum.z * cubeGeometry.depth);
-      actor = new Cube(cubeGeometry, cubeMaterial, position);
+      if (datum.visible === true) {
+        actor = new Cube(cubeGeometry, cubeMaterial, position);
+      }
+      if (datum.visible === false) {
+        actor = new Cube(cubeGeometry, {
+          wireframe: true
+        }, position);
+      }
       actor.from = datum;
       this.actors.push(actor);
     }
@@ -120,7 +143,11 @@ Stage = (function() {
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       eachActor = _ref[_i];
-      _results.push(eachActor.addToScene());
+      if (eachActor.from.visible === true) {
+        _results.push(eachActor.addToScene());
+      } else {
+        continue;
+      }
     }
     return _results;
   };

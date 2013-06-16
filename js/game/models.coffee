@@ -25,6 +25,7 @@ class Cube
   from: {}
   addToScene: ->
     pointer.scene.add(@mesh)
+
   setPosition: (x,y,z) ->
     
     @mesh.position.set(x,y,z)

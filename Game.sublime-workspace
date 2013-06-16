@@ -4,6 +4,38 @@
 		"selected_items":
 		[
 			[
+				"vecto",
+				"THREE.Vector3"
+			],
+			[
+				"vec",
+				"THREE.Vector3"
+			],
+			[
+				"S",
+				"THREE.Sprite"
+			],
+			[
+				"THREE",
+				"THREE.Clock"
+			],
+			[
+				"function",
+				"function_to_be_looped"
+			],
+			[
+				"TH",
+				"THREE"
+			],
+			[
+				"THR",
+				"THREE.Clock"
+			],
+			[
+				"toggle",
+				"toggleShadows"
+			],
+			[
 				"inn",
 				"innerHeight  (variable)"
 			],
@@ -123,8 +155,16 @@
 			"file": "css/main.css",
 			"settings":
 			{
-				"buffer_size": 2195,
+				"buffer_size": 2304,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 4789,
+				"line_ending": "Windows"
 			}
 		},
 		{
@@ -137,18 +177,34 @@
 			}
 		},
 		{
-			"file": "index.html",
+			"file": "/C/Users/Roar-Yawn/Downloads/mrdoob-three.js-r58-0-g9792a0f/mrdoob-three.js-9792a0f/examples/canvas_interactive_cubes_tween.html",
 			"settings":
 			{
-				"buffer_size": 4616,
+				"buffer_size": 4374,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/game/Engine.coffee",
+			"settings":
+			{
+				"buffer_size": 7952,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "js/app.js",
+			"file": "js/game/world.coffee",
 			"settings":
 			{
-				"buffer_size": 1824,
+				"buffer_size": 3811,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/game/models.coffee",
+			"settings":
+			{
+				"buffer_size": 2321,
 				"line_ending": "Windows"
 			}
 		},
@@ -156,24 +212,7 @@
 			"file": "js/game/System.js",
 			"settings":
 			{
-				"buffer_size": 7519,
-				"line_ending": "Windows",
-				"name": "(function(){"
-			}
-		},
-		{
-			"file": "js/game/Engine.coffee",
-			"settings":
-			{
-				"buffer_size": 2311,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/Roar-Yawn/Downloads/sample/sample/index.html",
-			"settings":
-			{
-				"buffer_size": 2152,
+				"buffer_size": 7577,
 				"line_ending": "Windows"
 			}
 		}
@@ -181,12 +220,40 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 60.0,
+		"height": 152.0,
 		"selected_items":
 		[
 			[
+				"set syntax html",
+				"Set Syntax: HTML"
+			],
+			[
+				"emmet",
+				"Set Syntax: Emmet"
+			],
+			[
+				"package lis",
+				"Package Control: List Packages"
+			],
+			[
 				"install",
 				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Package Control: Install Package"
+			],
+			[
+				"pa",
+				"Package Control: List Packages"
+			],
+			[
+				"compile",
+				"Coffee: Compile File"
 			],
 			[
 				"remove",
@@ -209,15 +276,11 @@
 				"Tidy HTML"
 			],
 			[
-				"instal",
-				"Package Control: Install Package"
-			],
-			[
 				"pac",
 				"Package Control: Install Package"
 			]
 		],
-		"width": 536.0
+		"width": 400.0
 	},
 	"console":
 	{
@@ -234,11 +297,26 @@
 	},
 	"file_history":
 	[
-		"/C/Users/Roar-Yawn/Desktop/tech-test/public/js/app/collections/collections.coffee",
+		"/C/Users/Roar-Yawn/Downloads/mrdoob-three.js-r58-0-g9792a0f/mrdoob-three.js-9792a0f/examples/software_sandbox.html",
+		"/C/xampp/htdocs/threeJS/examples/webgl_materials_blending.html",
+		"/C/xampp/htdocs/No_Thrones/js/game/models.coffee",
+		"/C/xampp/htdocs/No_Thrones/js/game/data.html",
+		"/C/xampp/htdocs/No_Thrones/js/game/coffee/Engine.coffee",
+		"/C/xampp/htdocs/No_Thrones/js/game/coffee/models.coffee",
+		"/C/xampp/htdocs/No_Thrones/js/game/coffee/world.coffee",
+		"/C/xampp/htdocs/No_Thrones/js/game/wiki/MainIndex.wiki",
+		"/C/Users/Roar-Yawn/AppData/Roaming/Sublime Text 2/Packages/Dog Ears/README.md",
+		"/C/xampp/htdocs/No_Thrones/js/game/System.js",
+		"/C/xampp/htdocs/No_Thrones/js/game/Engine.coffee",
+		"/C/xampp/htdocs/No_Thrones/js/game/world.coffee",
+		"/C/xampp/htdocs/No_Thrones/js/game/world.js",
 		"/C/Users/Roar-Yawn/Desktop/textured_cube",
-		"/J/Game/No_Thrones/threejs/index.html",
+		"/C/xampp/htdocs/No_Thrones/js/app.js",
 		"/C/Users/Roar-Yawn/Downloads/sample/sample/index2.html",
+		"/C/xampp/htdocs/No_Thrones/js/libs/Detector.js",
 		"/C/Users/Roar-Yawn/Downloads/sample/sample/index.html",
+		"/C/Users/Roar-Yawn/Desktop/tech-test/public/js/app/collections/collections.coffee",
+		"/J/Game/No_Thrones/threejs/index.html",
 		"/C/Users/Roar-Yawn/Downloads/color-#194D43.less",
 		"/J/tech-test/js/app/contactApp.coffee",
 		"/J/tech-test/js/app/models.coffee",
@@ -287,9 +365,25 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"heightmap",
+			"heightMap",
+			"cubeColor",
+			"@counter",
+			"eachUnit",
+			"20",
+			"fog",
+			"()\n",
+			"60",
+			"ent",
+			"ENGINE",
+			"bounce",
+			"@\n",
+			"console.log",
+			"@.",
+			"100",
 			"scene",
 			"000",
 			"fff",
@@ -303,6 +397,11 @@
 		"regex": false,
 		"replace_history":
 		[
+			"heightMap",
+			"@blocks",
+			"@",
+			"pointer",
+			"@"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -313,7 +412,7 @@
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -321,15 +420,15 @@
 					"file": "css/main.css",
 					"settings":
 					{
-						"buffer_size": 2195,
+						"buffer_size": 2304,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								689,
-								689
+								2097,
+								2097
 							]
 						],
 						"settings":
@@ -339,13 +438,41 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 144.0,
+						"translation.y": 1683.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
+					"file": "index.html",
+					"settings":
+					{
+						"buffer_size": 4789,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4241,
+								4241
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 459.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
 					"file": "css/modules.css",
 					"settings":
 					{
@@ -356,8 +483,8 @@
 						"selection":
 						[
 							[
-								1162,
-								1162
+								1034,
+								1034
 							]
 						],
 						"settings":
@@ -367,110 +494,52 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 480.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "index.html",
-					"settings":
-					{
-						"buffer_size": 4616,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3478,
-								3478
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 896.0,
+						"translation.y": 509.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "js/app.js",
+					"file": "/C/Users/Roar-Yawn/Downloads/mrdoob-three.js-r58-0-g9792a0f/mrdoob-three.js-9792a0f/examples/canvas_interactive_cubes_tween.html",
 					"settings":
 					{
-						"buffer_size": 1824,
+						"buffer_size": 4374,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1306,
-								1306
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 510.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "js/game/System.js",
-					"settings":
-					{
-						"buffer_size": 7519,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7223,
-								7223
-							]
-						],
-						"settings":
-						{
-							"auto_name": "(function(){",
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3072.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
 					"file": "js/game/Engine.coffee",
 					"settings":
 					{
-						"buffer_size": 2311,
+						"buffer_size": 7952,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1141,
-								1141
+								789,
+								789
 							]
 						],
 						"settings":
@@ -480,34 +549,119 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 384.0,
+						"translation.y": 322.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "/C/Users/Roar-Yawn/Downloads/sample/sample/index.html",
+					"buffer": 4,
+					"file": "js/game/Engine.coffee",
 					"settings":
 					{
-						"buffer_size": 2152,
+						"buffer_size": 7952,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								458,
-								458
+								4943,
+								4943
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 336.0,
+						"translation.y": 3241.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "js/game/world.coffee",
+					"settings":
+					{
+						"buffer_size": 3811,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3278,
+								3278
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1479.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "js/game/models.coffee",
+					"settings":
+					{
+						"buffer_size": 2321,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								785,
+								785
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 51.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "js/game/System.js",
+					"settings":
+					{
+						"buffer_size": 7577,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5318,
+								5318
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2244.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -545,14 +699,18 @@
 			1.0
 		]
 	},
-	"menu_visible": true,
+	"menu_visible": false,
 	"output.coffee_compile_output":
 	{
 		"height": 26.0
 	},
+	"output.exec":
+	{
+		"height": 27.0
+	},
 	"replace":
 	{
-		"height": 0.0
+		"height": 62.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -579,6 +737,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 150.0,
+	"side_bar_width": 203.0,
 	"status_bar_visible": true
 }

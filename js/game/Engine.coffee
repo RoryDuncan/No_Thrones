@@ -17,9 +17,9 @@ class Engine
     # pointer is the pointer.
     window.pointer = @
 
-    VIEW_ANGLE = 33
-    WIDTH = 1000
-    HEIGHT = 600
+    VIEW_ANGLE = 35
+    WIDTH = 1600
+    HEIGHT = 1000
     NEAR = 0.1
     FAR = 5000
     CAMERA_START = 300
@@ -42,8 +42,8 @@ class Engine
         block:
           width: 25
           depth: 25
-          height: 15
-          color: 0x2f5b2b
+          height: 5
+          color: 0x55831e
 
 
 
@@ -61,11 +61,15 @@ class Engine
       $('.game').append( renderer.domElement )
       $('canvas').attr({'id':"screen"})
 
+      $('canvas').css {"width":"1000px", "height":"625px"}
+
     @camera.position.z = CAMERA_START
     @camera.position.y = 200
     @camera.position.x = -150
-    @camera.rotation.x = -0.45
-    @camera.lookAt(@scene.position)
+    #@camera.rotation.x = -0.45
+    
+
+
 
     # Any method that 'this' needs to be in
     _.bindAll @, "addToScene", "update", "draw", "makeSkybox", "ignition", "test", "toggleShadows"
@@ -77,13 +81,13 @@ class Engine
     @renderer.setClearColor(color, 1)
     @renderer.clear()
 
-    fog = new THREE.Fog( color, 100, 1200 )
+    fog = new THREE.Fog( color, 0, 1200 )
     @scene.fog = fog
 
     @test()
       
-  controller:
-
+  controller: {}
+  ###
     moveCamera: ->
       # WASD keyboard control
 
@@ -95,7 +99,6 @@ class Engine
       eng = pointer
 
       $(document).keydown (e) ->
-        console.log e.which
         if e.which is 65 or e.keyCode is 65
           pan "x", true
         if e.which is 87 or e.keyCode is 87
@@ -149,7 +152,7 @@ class Engine
         else return
 
 
-        ###
+        
         if add is true
           for c in [1..frames]
             requestAnimationFrame ->
@@ -163,9 +166,9 @@ class Engine
             requestAnimationFrame ->
               eng.camera.position[axis] -= (amount / frames)
         else return
-        ###
+        
       return
-
+  ###
   entities:
     all: {}
     visible: []
@@ -177,14 +180,24 @@ class Engine
 
   test: ->
 
-    @controller.moveCamera()
-    console.log @scene
+    # CONTROLS
+    console.group "test"
+
+    controls = new THREE.TrackballControls( @camera)
+    controls.staticMoving = true
+    controls.keys = [97,115,100]
+    #document.addEventListener "keypress", (e) ->
+    #  console.log e
+    controls.addEventListener( 'change', @renderer.render )
+
+
+    #@controller.moveCamera()
 
     @world.skybox = new Cube {width:25, depth:25, height:10,}, {color:0x73432c}
     unit = new Entity "unit", "js/game/textures/sprites/test.gif", 36, 36
 
-    @addToScene [@world.skybox.mesh]
-    console.log @world.skybox
+    #@addToScene [@world.skybox.mesh]
+    #console.log @world.skybox
 
     # light
     # only spot lights enable shadows
@@ -211,8 +224,8 @@ class Engine
     #@scene.add @plane
 
     @addToScene([plane, @spotLight])
-
-    stage = new Stage " test"
+    # window for dev purposes only
+    window.stage = new Stage " test"
     stage.makeRandomData(10,10,10)
     stage.build 
       width: @settings.world.block.width
@@ -220,8 +233,11 @@ class Engine
       depth:@settings.world.block.depth
     ,
       color: @settings.world.block.color
-      wireframe: true
+      wireframe: false
       wireframeLinewidth: 5.0
+
+    dir = new THREE.ArrowHelper( (new THREE.Vector3( 0, -2, 0 )), (new THREE.Vector3( 0, 100, 0 )), 30, 0x0077cc ) # ( dir, origin, length, hex )
+    @scene.add dir
     stage.addToScene()
 
     console.log stage
@@ -259,6 +275,7 @@ class Engine
 
 
   update: () ->
+    @camera.lookAt(@scene.position)
     #pointer.world.skybox.mesh.position.y += 0
 
   draw: () ->
@@ -314,3 +331,5 @@ class Engine
           @renderer.deallocateRenderTarget(pass.renderTarget) if pass.renderTarget
           @renderer.deallocateRenderTarget(pass.renderTarget1) if pass.renderTarget1
           @renderer.deallocateRenderTarget(pass.renderTarget2) if pass.renderTarget2
+
+
