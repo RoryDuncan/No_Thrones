@@ -18,8 +18,8 @@ class Engine
     window.pointer = @
 
     VIEW_ANGLE = 35
-    WIDTH = 1600
-    HEIGHT = 1000
+    WIDTH = window.innerWidth
+    HEIGHT = window.innerHeight
     NEAR = 0.1
     FAR = 5000
     CAMERA_START = 300
@@ -58,10 +58,10 @@ class Engine
 
     # inject the canvas
     if ( !($('canvas')[0]) )
-      $('.game').append( renderer.domElement )
+      $('.game').append( @renderer.domElement )
       $('canvas').attr({'id':"screen"})
 
-      $('canvas').css {"width":"1000px", "height":"625px"}
+      $('canvas').css {"width": (WIDTH) + "px", "height": (HEIGHT) + "px"}
 
     @camera.position.z = CAMERA_START
     @camera.position.y = 200
@@ -72,7 +72,7 @@ class Engine
 
 
     # Any method that 'this' needs to be in
-    _.bindAll @, "addToScene", "update", "draw", "makeSkybox", "ignition", "test", "toggleShadows"
+    _.bindAll @, "addToScene", "update", "draw", "makeSkybox", "ignition", "test"
 
   makeSkybox: ( fogColor ) ->
 
@@ -178,17 +178,16 @@ class Engine
     blocks: [] # list for the environment
     skybox: {}
 
+  enableMouse: ->
+    
+    @controller.orbit = new THREE.OrbitControls( @camera)
+
   test: ->
 
     # CONTROLS
     console.group "test"
 
-    controls = new THREE.TrackballControls( @camera)
-    controls.staticMoving = true
-    controls.keys = [97,115,100]
-    #document.addEventListener "keypress", (e) ->
-    #  console.log e
-    controls.addEventListener( 'change', @renderer.render )
+    @enableMouse()
 
 
     #@controller.moveCamera()
@@ -226,7 +225,7 @@ class Engine
     @addToScene([plane, @spotLight])
     # window for dev purposes only
     window.stage = new Stage " test"
-    stage.makeRandomData(10,10,10)
+    stage.makeRandomData(15,15,10)
     stage.build 
       width: @settings.world.block.width
       height:@settings.world.block.height
@@ -236,24 +235,13 @@ class Engine
       wireframe: false
       wireframeLinewidth: 5.0
 
-    dir = new THREE.ArrowHelper( (new THREE.Vector3( 0, -2, 0 )), (new THREE.Vector3( 0, 100, 0 )), 30, 0x0077cc ) # ( dir, origin, length, hex )
+    dir = new THREE.ArrowHelper( (new THREE.Vector3( 0, -2, 0 )), (new THREE.Vector3( 0, 100, 0 )), 30, 0x771111 ) # ( dir, origin, length, hex )
     @scene.add dir
     stage.addToScene()
 
     console.log stage
 
     @ignition()
-  toggleShadows: ->
-
-      # toggle shadows - in general
-      @renderer.shadowMapEnabled = true if @renderer.shadowMapEnabled is false
-
-      # enable shadows for a light
-      @spotLight.castShadow = true if @spotLight.castShadow is false
-
-      # enable shadows for an object
-      @world.skybox.castShadow = true if @world.skybox.castShadow is false
-      @world.skybox.receiveShadow = true if @world.skybox.receiveShadow is false
 
   ignition: ->
     #ignition is used to start looping the engine's drawing process
@@ -276,6 +264,7 @@ class Engine
 
   update: () ->
     @camera.lookAt(@scene.position)
+    @controller.orbit.update()
     #pointer.world.skybox.mesh.position.y += 0
 
   draw: () ->

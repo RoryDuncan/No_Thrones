@@ -14,8 +14,8 @@ Engine = (function() {
     console.clear();
     window.pointer = this;
     VIEW_ANGLE = 35;
-    WIDTH = 1600;
-    HEIGHT = 1000;
+    WIDTH = window.innerWidth;
+    HEIGHT = window.innerHeight;
     NEAR = 0.1;
     FAR = 5000;
     CAMERA_START = 300;
@@ -55,19 +55,19 @@ Engine = (function() {
     });
     this.renderer.setSize(WIDTH, HEIGHT);
     if (!($('canvas')[0])) {
-      $('.game').append(renderer.domElement);
+      $('.game').append(this.renderer.domElement);
       $('canvas').attr({
         'id': "screen"
       });
       $('canvas').css({
-        "width": "1000px",
-        "height": "625px"
+        "width": WIDTH + "px",
+        "height": HEIGHT + "px"
       });
     }
     this.camera.position.z = CAMERA_START;
     this.camera.position.y = 200;
     this.camera.position.x = -150;
-    _.bindAll(this, "addToScene", "update", "draw", "makeSkybox", "ignition", "test", "toggleShadows");
+    _.bindAll(this, "addToScene", "update", "draw", "makeSkybox", "ignition", "test");
   }
 
   Engine.prototype.makeSkybox = function(fogColor) {
@@ -176,13 +176,14 @@ Engine = (function() {
     skybox: {}
   };
 
+  Engine.prototype.enableMouse = function() {
+    return this.controller.orbit = new THREE.OrbitControls(this.camera);
+  };
+
   Engine.prototype.test = function() {
-    var controls, dir, plane, planeGeo, planeMat, unit;
+    var dir, plane, planeGeo, planeMat, unit;
     console.group("test");
-    controls = new THREE.TrackballControls(this.camera);
-    controls.staticMoving = true;
-    controls.keys = [97, 115, 100];
-    controls.addEventListener('change', this.renderer.render);
+    this.enableMouse();
     this.world.skybox = new Cube({
       width: 25,
       depth: 25,
@@ -208,7 +209,7 @@ Engine = (function() {
     plane.receiveShadow = true;
     this.addToScene([plane, this.spotLight]);
     window.stage = new Stage(" test");
-    stage.makeRandomData(10, 10, 10);
+    stage.makeRandomData(15, 15, 10);
     stage.build({
       width: this.settings.world.block.width,
       height: this.settings.world.block.height,
@@ -218,26 +219,11 @@ Engine = (function() {
       wireframe: false,
       wireframeLinewidth: 5.0
     });
-    dir = new THREE.ArrowHelper(new THREE.Vector3(0, -2, 0), new THREE.Vector3(0, 100, 0), 30, 0x0077cc);
+    dir = new THREE.ArrowHelper(new THREE.Vector3(0, -2, 0), new THREE.Vector3(0, 100, 0), 30, 0x771111);
     this.scene.add(dir);
     stage.addToScene();
     console.log(stage);
     return this.ignition();
-  };
-
-  Engine.prototype.toggleShadows = function() {
-    if (this.renderer.shadowMapEnabled === false) {
-      this.renderer.shadowMapEnabled = true;
-    }
-    if (this.spotLight.castShadow === false) {
-      this.spotLight.castShadow = true;
-    }
-    if (this.world.skybox.castShadow === false) {
-      this.world.skybox.castShadow = true;
-    }
-    if (this.world.skybox.receiveShadow === false) {
-      return this.world.skybox.receiveShadow = true;
-    }
   };
 
   Engine.prototype.ignition = function() {
@@ -267,7 +253,8 @@ Engine = (function() {
   };
 
   Engine.prototype.update = function() {
-    return this.camera.lookAt(this.scene.position);
+    this.camera.lookAt(this.scene.position);
+    return this.controller.orbit.update();
   };
 
   Engine.prototype.draw = function() {
