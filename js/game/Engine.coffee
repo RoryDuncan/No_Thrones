@@ -22,7 +22,7 @@ class Engine
     HEIGHT = window.innerHeight
     NEAR = 0.1
     FAR = 5000
-    CAMERA_START = 300
+    CAMERA_START = 600
 
     ###
       @Data until created elsewhere
@@ -43,7 +43,7 @@ class Engine
           width: 25
           depth: 25
           height: 5
-          color: 0x55831e
+          color: 0xffffff
 
 
 
@@ -65,7 +65,7 @@ class Engine
 
     @camera.position.z = CAMERA_START
     @camera.position.y = 200
-    @camera.position.x = -150
+    @camera.position.x = 300
     #@camera.rotation.x = -0.45
     
 
@@ -73,115 +73,42 @@ class Engine
 
     # Any method that 'this' needs to be in
     _.bindAll @, "addToScene", "update", "draw", "makeSkybox", "ignition", "test"
-
+    return
+    
   makeSkybox: ( fogColor ) ->
 
-    color = fogColor or 0xeeeeee
+    color = fogColor or 0xaaaaaa
 
     @renderer.setClearColor(color, 1)
     @renderer.clear()
 
-    fog = new THREE.Fog( color, 0, 1200 )
+    fog = new THREE.Fog( color, 0, 2000 )
     @scene.fog = fog
 
     @test()
       
   controller: {}
-  ###
-    moveCamera: ->
-      # WASD keyboard control
+  
 
-      amount = 100
-      duration = 1
-      progress = 0
+  "entities": 
+    "sprites": []
+    "all": []
+    "visible": []
 
+  "nonEnts":
+    "blocks": []
 
-      eng = pointer
-
-      $(document).keydown (e) ->
-        if e.which is 65 or e.keyCode is 65
-          pan "x", true
-        if e.which is 87 or e.keyCode is 87
-          pan "z", true
-        if e.which is 68or e.keyCode is 68
-          pan "x", false
-        if e.which is 83 or e.keyCode is 83
-          pan "z", false
-        else return
-
-      pan = (axis, add) ->
-
-        start = eng.camera.position[axis]
-
-        # Animate will handle the transition
-        animate = (item) ->
-
-          dur = 1000*item.time
-          end = +new Date() + dur
-
-          step = ->
-
-            current = +new Date()
-            remaining = end - current
-            if remaining < 60
-              item.run(1)
-              return
-            else 
-
-              rate = 1 - remaining / dur
-              item.run(rate)
-            requestAnimationFrame(step)
-          step()
-
-        # the logic of the direction and transitioning
-
-        if add is true
-          animate
-            time: duration
-            run: (rate) ->
-              eng.camera.position[axis] = start - (amount * rate)
-              eng.camera.lookAt( eng.scene.position )
-
-        if add is false
-          animate
-            time: duration
-            run: (rate) ->
-              eng.camera.position[axis] = start + (amount * rate)
-              eng.camera.lookAt( eng.scene.position )
-          
-        else return
-
-
-        
-        if add is true
-          for c in [1..frames]
-            requestAnimationFrame ->
-              eng.camera.position[axis] += (amount / frames)
-              console.log "Panning?"
-              
-
-        if add is false
-          for c in [1..frames] 
-            
-            requestAnimationFrame ->
-              eng.camera.position[axis] -= (amount / frames)
-        else return
-        
-      return
-  ###
-  entities:
-    all: {}
-    visible: []
-
-      
-  world:
-    blocks: [] # list for the environment
-    skybox: {}
+  "world" :
+    "blocks": [] # list for the environment
+    "skybox": {}
 
   enableMouse: ->
     
-    @controller.orbit = new THREE.OrbitControls( @camera)
-
+    @controller.orbit = new THREE.OrbitControls @camera, document.getElementById('screen') 
+    @controller.orbit.userPanSpeed = 8
+    ### For containing controls:
+     @src https://github.com/mrdoob/three.js/blob/master/examples/js/controls/OrbitControls.js
+    ###
   test: ->
 
     # CONTROLS
@@ -192,8 +119,8 @@ class Engine
 
     #@controller.moveCamera()
 
-    @world.skybox = new Cube {width:25, depth:25, height:10,}, {color:0x73432c}
-    unit = new Entity "unit", "js/game/textures/sprites/test.gif", 36, 36
+    @world.skybox = new Cube {width:25, depth:25, height:10,}, {color:0xffffff}
+    unit = new Sprite "unit", "js/game/textures/sprites/test.gif", 36, 36
 
     #@addToScene [@world.skybox.mesh]
     #console.log @world.skybox
@@ -224,22 +151,22 @@ class Engine
 
     @addToScene([plane, @spotLight])
     # window for dev purposes only
-    window.stage = new Stage " test"
-    stage.makeRandomData(15,15,10)
-    stage.build 
-      width: @settings.world.block.width
-      height:@settings.world.block.height
-      depth:@settings.world.block.depth
+    @stage = new Stage " test"
+    @stage.makeRandomData(15,15,10)
+    @stage.build 
+      width:  @settings.world.block.width
+      height: @settings.world.block.height
+      depth:  @settings.world.block.depth
     ,
-      color: @settings.world.block.color
+      color: 0x483758
       wireframe: false
       wireframeLinewidth: 5.0
-
-    dir = new THREE.ArrowHelper( (new THREE.Vector3( 0, -2, 0 )), (new THREE.Vector3( 0, 100, 0 )), 30, 0x771111 ) # ( dir, origin, length, hex )
+          # ( dir, origin, length, hex )
+    dir = new THREE.ArrowHelper( (new THREE.Vector3( 0, -2, 0 )), (new THREE.Vector3( 0, 100, 0 )), 30, 0x771111 ) 
     @scene.add dir
-    stage.addToScene()
+    @stage.addToScene()
 
-    console.log stage
+    console.log @stage
 
     @ignition()
 

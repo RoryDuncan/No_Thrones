@@ -33,17 +33,16 @@ class Cube
 
 
 ###
-@class Entity
+@class Sprite
 @level atomic, graphical
 @ConstructorParams name, path
 ###
 
-class Entity
+class Sprite
 
     constructor: (name, path) ->
 
       _.bindAll(@, "addToScene", "adjust", "loaded")
-
       entity = @
       @name = name || ""
 
@@ -57,7 +56,7 @@ class Entity
       console.log "Adding ", @
       @adjust()
       pointer.scene.add @sprite
-      console.log "Entity \"" + @name + "\" added to scene"
+      console.log "Sprite \"" + @name + "\" added to scene"
 
     adjust: ->
       
