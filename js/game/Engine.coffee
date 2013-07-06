@@ -1,9 +1,4 @@
-###
-@class Engine
-@description
-@methods constructor, makeSkybox, test, toggleShadows,
-@params length, width, depth, color
-###
+
 
 class Engine
 
@@ -28,7 +23,7 @@ class Engine
       @Data until created elsewhere
     ###
 
-    @settings =
+    @config =
       statics:
         viewAngle: VIEW_ANGLE
         width: WIDTH
@@ -74,7 +69,7 @@ class Engine
     # Any method that 'this' needs to be in
     _.bindAll @, "addToScene", "update", "draw", "makeSkybox", "ignition", "test"
     return
-    
+  
   makeSkybox: ( fogColor ) ->
 
     color = fogColor or 0xaaaaaa
@@ -105,7 +100,7 @@ class Engine
   enableMouse: ->
     
     @controller.orbit = new THREE.OrbitControls @camera, document.getElementById('screen') 
-    @controller.orbit.userPanSpeed = 8
+    @controller.orbit.userPanSpeed = 4
     ### For containing controls:
      @src https://github.com/mrdoob/three.js/blob/master/examples/js/controls/OrbitControls.js
     ###
@@ -152,13 +147,13 @@ class Engine
     @addToScene([plane, @spotLight])
     # window for dev purposes only
     @stage = new Stage " test"
-    @stage.makeRandomData(15,15,10)
+    @stage.makeFlat(15,15)
     @stage.build 
-      width:  @settings.world.block.width
-      height: @settings.world.block.height
-      depth:  @settings.world.block.depth
+      width:  @config.world.block.width
+      height: @config.world.block.height
+      depth:  @config.world.block.depth
     ,
-      color: 0x483758
+      color: 0xeeffff
       wireframe: false
       wireframeLinewidth: 5.0
           # ( dir, origin, length, hex )

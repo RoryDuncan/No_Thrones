@@ -21,6 +21,79 @@ class Stage
     console.log @
   data: []
   actors: []
+  ###
+  @params heightMap - array
+  ###
+
+  makeFlat: (length, width, floorHeight) ->
+    if length is undefined or null
+      return console.error "Size parameter required."
+    if width is undefined # assume that it is square
+      width = length
+    if floorHeight is undefined
+      floorHeight = 1
+
+    total = (length*width) - 1 # adjust for zero-indexing
+
+    @settings =
+      rows: width
+      cols: length
+      stacks: floorHeight
+
+    #__ resets __#
+    @data = []
+    @size = 0
+    x = 0
+    y = 0
+    z = 0 
+    for eachSquare in [0..total]
+      # increment for every complete row
+      z += 1 if x is width
+      # after the y increment, reset x to start to the first in the row
+      x = 0 if x is width
+      
+      @data.push
+        'id': eachSquare
+        'x' : x
+        'y' : floorHeight
+        'z' : z
+      x++
+      @size++
+
+
+
+  makeFromHeightMap: (heightMap, length, width) ->
+    if heightMap or length or width is undefined
+      return console.error "Missing parameter of Stage.makeFromHeightMap. 3 Parameters required."
+    total = heightMap.length
+    @settings =
+      rows: width
+      cols: length
+      stacks: peak
+
+    #__ resets __#
+    @data = []
+    @size = 0
+    x = 0
+    y = 0
+    z = 0
+
+    for eachSquare in [0..total]
+
+
+      z += 1 if x is width # increment for every complete row
+      x = 0 if x is width # after the y increment, reset x to start to the first in the row
+      
+      @data.push
+        'id': eachSquare
+        'x' : x
+        'y' : 1 + ~~( Math.random()*10 )
+        'z' : z
+      x++
+      @size++
+
+
+
 
   makeRandomData: ( length, width, peak, noise) ->
 
@@ -89,7 +162,7 @@ class Stage
     console.groupCollapsed "Building..."
     for datum in @data
 
-      cubeGeometry.height = baseHeight *  datum.y
+      cubeGeometry.height = (baseHeight-1) *  datum.y
       # position based on it's position on the "grid".
       position = new THREE.Vector3 datum.x*( cubeGeometry.width )+( datum.x*margin ), (cubeGeometry.height/2), datum.z*( cubeGeometry.depth )+( datum.z*margin )
 
