@@ -100,7 +100,7 @@ class Engine
   enableMouse: ->
     
     @controller.orbit = new THREE.OrbitControls @camera, document.getElementById('screen') 
-    @controller.orbit.userPanSpeed = 4
+    @controller.orbit.userPanSpeed = 1.5
     ### For containing controls:
      @src https://github.com/mrdoob/three.js/blob/master/examples/js/controls/OrbitControls.js
     ###
