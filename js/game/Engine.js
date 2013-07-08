@@ -3,43 +3,26 @@ var Engine;
 Engine = (function() {
 
   function Engine(name) {
-    var CAMERA_START, FAR, HEIGHT, NEAR, VIEW_ANGLE, WIDTH, renderer;
-    console.clear();
+    $('body').append("<div class='loading'><h1>Loading</h1></div>");
+    $('.loading').css({
+      "position": "absolute",
+      "top": "40%",
+      "left": "40%",
+      "width": "10%"
+    });
     window.pointer = this;
-    VIEW_ANGLE = 35;
+    _.bindAll(this, "addToScene", "update", "draw", "makeSkybox", "ignition", "test");
+    this.config.get(this);
+  }
+
+  Engine.prototype.initialize = function() {
+    var HEIGHT, WIDTH, renderer;
+    console.log("Initializing Engine.");
     WIDTH = window.innerWidth;
     HEIGHT = window.innerHeight;
-    NEAR = 0.1;
-    FAR = 5000;
-    CAMERA_START = 600;
-    /*
-      @Data until created elsewhere
-    */
-
-    this.config = {
-      statics: {
-        viewAngle: VIEW_ANGLE,
-        width: WIDTH,
-        height: HEIGHT,
-        near: NEAR,
-        far: FAR
-      },
-      world: {
-        grid: {
-          color: 0xFFFF55,
-          margin: 1
-        },
-        block: {
-          width: 25,
-          depth: 25,
-          height: 5,
-          color: 0xffffff
-        }
-      }
-    };
     this.name = name;
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(VIEW_ANGLE, WIDTH / HEIGHT, NEAR, FAR);
+    this.camera = new THREE.PerspectiveCamera(this.config.camera.angle, WIDTH / HEIGHT, this.config.camera.near, this.config.camera.far);
     this.clock = new THREE.Clock(true);
     this.clock.start();
     console.log(this.camera);
@@ -47,7 +30,7 @@ Engine = (function() {
       antialaising: true
     });
     this.renderer.setSize(WIDTH, HEIGHT);
-    if (!($('canvas')[0])) {
+    if (!($('canvas')[0]) || !$('#screen')) {
       $('.game').append(this.renderer.domElement);
       $('canvas').attr({
         'id': "screen"
@@ -57,16 +40,43 @@ Engine = (function() {
         "height": HEIGHT + "px"
       });
     }
-    this.camera.position.z = CAMERA_START;
-    this.camera.position.y = 200;
-    this.camera.position.x = 300;
-    _.bindAll(this, "addToScene", "update", "draw", "makeSkybox", "ignition", "test");
-    return;
-  }
+    this.$el = $('canvas#screen');
+    this.camera.position.z = this.config.camera.start.z;
+    this.camera.position.y = this.config.camera.start.y;
+    return this.camera.position.x = this.config.camera.start.x;
+  };
+
+  Engine.prototype.config = {
+    get: function(ctx) {
+      var JSON, self;
+      self = ctx;
+      console.log("Retrieving Configuration File");
+      JSON = $.getJSON("js/game/config/config.json");
+      return JSON.done(function() {
+        console.log("Parsing");
+        this.config["default"] = JSON;
+        ctx.initialize();
+        console.log("Config Loaded.");
+        return console.log("Initializing Engine.");
+      });
+    },
+    saveToCookie: function(configuration) {
+      return console.log("Saving to cookie.");
+    }
+  };
+
+  Engine.prototype.screen = {
+    getWidth: function() {
+      return window.innerWidth;
+    },
+    getHeight: function() {
+      return window.innerHeight;
+    }
+  };
 
   Engine.prototype.makeSkybox = function(fogColor) {
     var color, fog;
-    color = fogColor || 0xaaaaaa;
+    color = fogColor || 0xeeeeee;
     this.renderer.setClearColor(color, 1);
     this.renderer.clear();
     fog = new THREE.Fog(color, 0, 2000);

@@ -3,87 +3,91 @@
 class Engine
 
   constructor: (name) ->
-
-    console.clear()
-
-    # engine is the instance,
-    # Engine is the Class,
-    #     and
-    # pointer is the pointer.
+    $('body').append "<div class='loading'><h1>Loading</h1></div>"
+    $('.loading').css
+      "position":"absolute"
+      "top":"40%"
+      "left":"40%"
+      "width":"10%"
+    # Keep it tidy, m'love
+    #console.clear()
+    #set a fallback reference
     window.pointer = @
+    # Any method that 'this' needs to be in
+    _.bindAll @, "addToScene", "update", "draw", "makeSkybox", "ignition", "test"
 
-    VIEW_ANGLE = 35
+    # get the data needed to start everythign up.
+    # data located in config.json
+    @config.get(@) # context passed in.
+
+  initialize: ->
+    # Initialize the engine based off of
+    # settings described in config.json
+
+    console.log "Initializing Engine."
     WIDTH = window.innerWidth
     HEIGHT = window.innerHeight
-    NEAR = 0.1
-    FAR = 5000
-    CAMERA_START = 600
-
-    ###
-      @Data until created elsewhere
-    ###
-
-    @config =
-      statics:
-        viewAngle: VIEW_ANGLE
-        width: WIDTH
-        height: HEIGHT
-        near: NEAR
-        far: FAR
-      world:
-        grid:
-          color: 0xFFFF55
-          margin: 1
-        block:
-          width: 25
-          depth: 25
-          height: 5
-          color: 0xffffff
-
-
 
     @name = name
     @scene = new THREE.Scene()
-    @camera = new THREE.PerspectiveCamera( VIEW_ANGLE, WIDTH / HEIGHT, NEAR, FAR)
+    @camera = new THREE.PerspectiveCamera( @config.camera.angle, WIDTH / HEIGHT, @config.camera.near, @config.camera.far)
     @clock = new THREE.Clock( true )
     @clock.start()
     console.log @camera
     @renderer = renderer = new THREE.WebGLRenderer({ antialaising: true })
-    @renderer.setSize(WIDTH, HEIGHT )
+    @renderer.setSize( WIDTH, HEIGHT )
 
     # inject the canvas
-    if ( !($('canvas')[0]) )
+
+    if ( !($('canvas')[0]) or !$('#screen') )
       $('.game').append( @renderer.domElement )
       $('canvas').attr({'id':"screen"})
 
       $('canvas').css {"width": (WIDTH) + "px", "height": (HEIGHT) + "px"}
 
-    @camera.position.z = CAMERA_START
-    @camera.position.y = 200
-    @camera.position.x = 300
+    @$el = $('canvas#screen') 
+
+    @camera.position.z = @config.camera.start.z
+    @camera.position.y = @config.camera.start.y
+    @camera.position.x = @config.camera.start.x
     #@camera.rotation.x = -0.45
     
 
+  config:
+    get: (ctx) -> 
+      # @ is the config object
+      self = ctx
+      console.log "Retrieving Configuration File"
+      JSON = $.getJSON "js/game/config/config.json"
+      JSON.done ->
+        console.log "Parsing"
+        @config.default = JSON
+        ctx.initialize()
+        console.log "Config Loaded."
+        console.log "Initializing Engine."
+
+    saveToCookie: (configuration) ->
+      console.log "Saving to cookie."
 
 
-    # Any method that 'this' needs to be in
-    _.bindAll @, "addToScene", "update", "draw", "makeSkybox", "ignition", "test"
-    return
-  
+  screen: 
+    getWidth: ->
+      return window.innerWidth
+    getHeight: ->
+      return window.innerHeight
+
   makeSkybox: ( fogColor ) ->
 
-    color = fogColor or 0xaaaaaa
+    color = fogColor or 0xeeeeee
 
     @renderer.setClearColor(color, 1)
     @renderer.clear()
 
     fog = new THREE.Fog( color, 0, 2000 )
     @scene.fog = fog
-
     @test()
-      
+
   controller: {}
-  
 
   "entities": 
     "sprites": []

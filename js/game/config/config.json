@@ -1,0 +1,23 @@
+{
+	"camera": {
+		"angle" : 35,
+    	"near" : 0.1,
+    	"far" : 5000,
+    	"startPosition" : {
+    		"x" : 300,
+    		"y" : 200,
+    		"z" : 600
+    	}
+	},
+	"renderer" :{
+		"antialiasing" : true
+	},
+	"world" : {
+		"block" : {
+			"width": 25,
+        	"depth": 25,
+        	"height": 5,
+        	"color": "0xffffff"
+		}
+	}
+}
