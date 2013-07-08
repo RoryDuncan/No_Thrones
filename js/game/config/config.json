@@ -3,7 +3,7 @@
 		"angle" : 35,
     	"near" : 0.1,
     	"far" : 5000,
-    	"startPosition" : {
+    	"start" : {
     		"x" : 300,
     		"y" : 200,
     		"z" : 600

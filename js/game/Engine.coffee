@@ -6,23 +6,28 @@ class Engine
     $('body').append "<div class='loading'><h1>Loading</h1></div>"
     $('.loading').css
       "position":"absolute"
-      "top":"40%"
-      "left":"40%"
+      "top":"35%"
+      "left":"35%"
       "width":"10%"
     # Keep it tidy, m'love
     #console.clear()
     #set a fallback reference
     window.pointer = @
     # Any method that 'this' needs to be in
-    _.bindAll @, "addToScene", "update", "draw", "makeSkybox", "ignition", "test"
+    _.bindAll @, "addToScene", "update", "draw", "makeSkybox", "ignition", "test", "initialize"
 
     # get the data needed to start everythign up.
     # data located in config.json
-    @config.get(@) # context passed in.
+    @config.load(@) # context passed in.
 
-  initialize: ->
+  initialize:  (ctx) ->
+
     # Initialize the engine based off of
     # settings described in config.json
+    config = @config.defaults
+
+    console.log "Loading with default configuration:"
+    console.log config
 
     console.log "Initializing Engine."
     WIDTH = window.innerWidth
@@ -30,11 +35,11 @@ class Engine
 
     @name = name
     @scene = new THREE.Scene()
-    @camera = new THREE.PerspectiveCamera( @config.camera.angle, WIDTH / HEIGHT, @config.camera.near, @config.camera.far)
+    @camera = new THREE.PerspectiveCamera( config.camera.angle, WIDTH / HEIGHT, config.camera.near, config.camera.far)
     @clock = new THREE.Clock( true )
     @clock.start()
     console.log @camera
-    @renderer = renderer = new THREE.WebGLRenderer({ antialaising: true })
+    @renderer = renderer = new THREE.WebGLRenderer({ antialaising: config.renderer.antialaising })
     @renderer.setSize( WIDTH, HEIGHT )
 
     # inject the canvas
@@ -47,24 +52,37 @@ class Engine
 
     @$el = $('canvas#screen') 
 
-    @camera.position.z = @config.camera.start.z
-    @camera.position.y = @config.camera.start.y
-    @camera.position.x = @config.camera.start.x
+    @camera.position.z = config.camera.start.z
+    @camera.position.y = config.camera.start.y
+    @camera.position.x = config.camera.start.x
     #@camera.rotation.x = -0.45
     
+  loadScreen:
+    start: ->
+      console.log "Loading"
+    done: ->
+      console.log "done"
 
   config:
-    get: (ctx) -> 
+    load: (ctx) -> 
       # @ is the config object
-      self = ctx
-      console.log "Retrieving Configuration File"
+      console.log "Retrieving Configuration File. config.json"
+      console.log ctx
+
+      #ajax request
       JSON = $.getJSON "js/game/config/config.json"
-      JSON.done ->
-        console.log "Parsing"
-        @config.default = JSON
-        ctx.initialize()
+
+      # when done, 
+      JSON.complete ->
+
+        # attach to the Engine object as the 'defaults'
+        ctx.config.defaults = jQuery.parseJSON JSON.responseText
+        # Now we're ready to kick off the Engine
         console.log "Config Loaded."
-        console.log "Initializing Engine."
+        ctx.initialize(ctx)
+
+        
+
 
     saveToCookie: (configuration) ->
       console.log "Saving to cookie."

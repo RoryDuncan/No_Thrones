@@ -1,7 +1,7 @@
 
 //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 //
-//    This is a non-game related page. system.js will keep track of the interface, as well as initiate the game engine, and track modules.
+//    This is a non-game related file. system.js will keep track of the interface, as well as initiate the game engine, and track modules.
 //    If this contains game code other than initializers and user interface, im doing it wrong.
 //
 //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -216,7 +216,7 @@ var System = function() {
     }))
 
     init();
-    engine.makeSkybox();
+    
 
   };
   this.game.states.story = {};
