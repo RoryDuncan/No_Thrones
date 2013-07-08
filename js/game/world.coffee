@@ -21,9 +21,9 @@ class Stage
     console.log @
   data: []
   actors: []
-  ###
-  @params heightMap - array
-  ###
+
+  mergeActors: ->
+    console.log "Merging " + @size + " actors."
 
   makeFlat: (length, width, floorHeight) ->
     if length is undefined or null
@@ -147,6 +147,7 @@ class Stage
   @method Stage.build
   ###
   build: (cubeGeometry, cubeMaterial, origin) ->
+
     baseHeight = cubeGeometry.height
     #console.clear()
     # Params are passed through from Stage.build()

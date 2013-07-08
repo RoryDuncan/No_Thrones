@@ -3,6 +3,7 @@ var Engine;
 
 Engine = (function() {
   function Engine(name) {
+    console.clear();
     $('body').append("<div class='loading'><h1>Loading</h1></div>");
     $('.loading').css({
       "position": "absolute",
@@ -11,9 +12,11 @@ Engine = (function() {
       "width": "10%"
     });
     window.pointer = this;
-    _.bindAll(this, "addToScene", "update", "draw", "makeSkybox", "ignition", "test", "initialize");
+    _.bindAll(this, "addToScene", "update", "draw", "addFog", "ignition", "test", "initialize");
     this.config.load(this);
   }
+
+  Engine.prototype.initialized = false;
 
   Engine.prototype.initialize = function(ctx) {
     var HEIGHT, WIDTH, config, renderer;
@@ -21,14 +24,13 @@ Engine = (function() {
     console.log("Loading with default configuration:");
     console.log(config);
     console.log("Initializing Engine.");
-    WIDTH = window.innerWidth;
-    HEIGHT = window.innerHeight;
+    WIDTH = this.screen.getWidth();
+    HEIGHT = this.screen.getHeight();
     this.name = name;
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(config.camera.angle, WIDTH / HEIGHT, config.camera.near, config.camera.far);
     this.clock = new THREE.Clock(true);
     this.clock.start();
-    console.log(this.camera);
     this.renderer = renderer = new THREE.WebGLRenderer({
       antialaising: config.renderer.antialaising
     });
@@ -46,7 +48,9 @@ Engine = (function() {
     this.$el = $('canvas#screen');
     this.camera.position.z = config.camera.start.z;
     this.camera.position.y = config.camera.start.y;
-    return this.camera.position.x = config.camera.start.x;
+    this.camera.position.x = config.camera.start.x;
+    this.initialized = true;
+    return this.addFog();
   };
 
   Engine.prototype.loadScreen = {
@@ -61,7 +65,7 @@ Engine = (function() {
   Engine.prototype.config = {
     load: function(ctx) {
       var JSON;
-      console.log("Retrieving Configuration File. config.json");
+      console.log("Retrieving Configuration File: config.json");
       console.log(ctx);
       JSON = $.getJSON("js/game/config/config.json");
       return JSON.complete(function() {
@@ -84,7 +88,7 @@ Engine = (function() {
     }
   };
 
-  Engine.prototype.makeSkybox = function(fogColor) {
+  Engine.prototype.addFog = function(fogColor) {
     var color, fog;
     color = fogColor || 0xeeeeee;
     this.renderer.setClearColor(color, 1);
@@ -121,6 +125,10 @@ Engine = (function() {
   };
 
   Engine.prototype.test = function() {
+    /*
+    # @CONTROLS
+    */
+
     var dir, plane, planeGeo, planeMat, unit;
     console.group("test");
     this.enableMouse();
@@ -132,6 +140,10 @@ Engine = (function() {
       color: 0xffffff
     });
     unit = new Sprite("unit", "js/game/textures/sprites/test.gif", 36, 36);
+    /*
+    # @LIGHT
+    */
+
     this.spotLight = new THREE.SpotLight(0xffffff0);
     this.spotLight.position.set(0, 1000, 300);
     this.spotLight.shadowMapWidth = 2048;
@@ -139,6 +151,10 @@ Engine = (function() {
     this.spotLight.shadowCameraNear = 500;
     this.spotLight.shadowCameraFar = 4000;
     this.spotLight.shadowCameraFov = 30;
+    /*
+    # @PLANE
+    */
+
     planeGeo = new THREE.PlaneGeometry(1, 1, 10, 10);
     planeMat = new THREE.MeshLambertMaterial({
       color: 0xe6e6e6
@@ -148,14 +164,18 @@ Engine = (function() {
     plane.position.y = -30;
     plane.receiveShadow = true;
     this.addToScene([plane, this.spotLight]);
+    /*
+    # @STAGE
+    */
+
     this.stage = new Stage(" test");
     this.stage.makeFlat(15, 15);
     this.stage.build({
-      width: this.config.world.block.width,
-      height: this.config.world.block.height,
-      depth: this.config.world.block.depth
+      width: this.config.defaults.world.block.width,
+      height: this.config.defaults.world.block.height,
+      depth: this.config.defaults.world.block.depth
     }, {
-      color: 0xeeffff,
+      color: 0x008888,
       wireframe: false,
       wireframeLinewidth: 5.0
     });
