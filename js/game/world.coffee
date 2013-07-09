@@ -15,16 +15,21 @@
 ###
 
 class Stage
-  constructor: (name, config) ->
+  constructor: (name, config, origin) ->
     @name = name
     @title = "World " + name
     @config = config || false
     console.log @
+    origin = origin || new THREE.Vector3()
   data: []
   actors: []
 
-  mergeActors: ->
-    console.log "Merging " + @size + " actors."
+  getCenter: () ->
+    console.log "Getting center of stage"
+
+    select = ~~( @size / 2 )
+
+    return @actors[select].mesh.position.clone()
 
   makeFlat: (length, width, floorHeight) ->
     if length is undefined or null
@@ -96,7 +101,7 @@ class Stage
 
 
 
-  makeRandomData: ( length, width, peak, noise) ->
+  makeRandom: ( length, width, peak, noise) ->
 
     return console.error "Arguments not specified. Stage.makeRandomData(h,w,maxZ) arguments needed." if length is undefined
     return console.error "Arguments not specified. Stage.makeRandomData(h,w,maxZ) arguments needed." if width is undefined
@@ -152,9 +157,6 @@ class Stage
     # Stage.build() is the transient
     # between data and visual objects
 
-    
-
-    #console.clear()
     # Params are passed through from Stage.build()
     return console.error "I can't build without any lumber. (psst, data is missing)" if @data.length is 0
 
@@ -163,8 +165,6 @@ class Stage
     geometry = @config.geometry
     material = @config.material
     material.color = parseInt(material.color, 16)
-    console.log material.color
-    console.log (parseInt(material.color, 16) )
 
     ###  @SETTINGS   ###
 

@@ -17,12 +17,14 @@
 			"width": 25,
         	"depth": 25,
         	"height": 5,
-        	"margin": 1
+        	"margin": 0.5
        		},
         "material" : {
         	"color": "0x444466",
       		"wireframe": false,
       		"wireframeLinewidth": 5
 		}
-	}
+	},
+	"heightmap" : [ 2,2,2,2,2, 2,2,2,2,2, 2,3,2,2,2, 2,2,2,2,2, 2,2,2,2,2]
+
 }

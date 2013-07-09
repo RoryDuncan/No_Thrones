@@ -213,9 +213,12 @@ class Engine
     # @STAGE
     ###
     @stage = new Stage "test", @config.defaults.world
-    @stage.makeFlat(15,15)
-    @stage.build().mergeActors()
-    dir = new THREE.ArrowHelper( (new THREE.Vector3( 0, -2, 0 )), (new THREE.Vector3( 0, 100, 0 )), 30, 0x771111 ) 
+    @stage.makeFromHeightMap(@config.defaults.heightmap, 5, 5)
+    @stage.build()
+    centerOfStage = @stage.getCenter()
+    above = new THREE.Vector3( 0, 100, 0 )
+    centerOfStage.add above
+    dir = new THREE.ArrowHelper( (new THREE.Vector3( 0, -2, 0 )), centerOfStage, 30, 0x771111 ) 
     @scene.add dir
     @stage.addToScene()
 

@@ -17,19 +17,23 @@ var Stage;
 
 Stage = (function() {
 
-  function Stage(name, config) {
+  function Stage(name, config, origin) {
     this.name = name;
     this.title = "World " + name;
     this.config = config || false;
     console.log(this);
+    origin = origin || new THREE.Vector3();
   }
 
   Stage.prototype.data = [];
 
   Stage.prototype.actors = [];
 
-  Stage.prototype.mergeActors = function() {
-    return console.log("Merging " + this.size + " actors.");
+  Stage.prototype.getCenter = function() {
+    var select;
+    console.log("Getting center of stage");
+    select = ~~(this.size / 2);
+    return this.actors[select].mesh.position.clone();
   };
 
   Stage.prototype.makeFlat = function(length, width, floorHeight) {
@@ -110,7 +114,7 @@ Stage = (function() {
     return _results;
   };
 
-  Stage.prototype.makeRandomData = function(length, width, peak, noise) {
+  Stage.prototype.makeRandom = function(length, width, peak, noise) {
     var eachSquare, total, x, y, z, _i;
     if (length === void 0) {
       return console.error("Arguments not specified. Stage.makeRandomData(h,w,maxZ) arguments needed.");
@@ -179,8 +183,6 @@ Stage = (function() {
     geometry = this.config.geometry;
     material = this.config.material;
     material.color = parseInt(material.color, 16);
-    console.log(material.color);
-    console.log(parseInt(material.color, 16));
     /*  @SETTINGS
     */
 

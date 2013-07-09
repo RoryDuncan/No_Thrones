@@ -158,7 +158,7 @@ Engine = (function() {
     # @CONTROLS
     */
 
-    var dir, plane, planeGeo, planeMat, unit;
+    var above, centerOfStage, dir, plane, planeGeo, planeMat, unit;
     console.group("test");
     this.enableMouse();
     this.world.skybox = new Cube({
@@ -198,9 +198,12 @@ Engine = (function() {
     */
 
     this.stage = new Stage("test", this.config.defaults.world);
-    this.stage.makeFlat(15, 15);
-    this.stage.build().mergeActors();
-    dir = new THREE.ArrowHelper(new THREE.Vector3(0, -2, 0), new THREE.Vector3(0, 100, 0), 30, 0x771111);
+    this.stage.makeFromHeightMap(this.config.defaults.heightmap, 5, 5);
+    this.stage.build();
+    centerOfStage = this.stage.getCenter();
+    above = new THREE.Vector3(0, 100, 0);
+    centerOfStage.add(above);
+    dir = new THREE.ArrowHelper(new THREE.Vector3(0, -2, 0), centerOfStage, 30, 0x771111);
     this.scene.add(dir);
     this.stage.addToScene();
     console.log(this.stage);
