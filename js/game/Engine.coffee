@@ -4,18 +4,13 @@ class Engine
 
   constructor: (name) ->
     console.clear()
-    $('body').append "<div class='loading'><h1>Loading</h1></div>"
-    $('.loading').css
-      "position":"absolute"
-      "top":"35%"
-      "left":"35%"
-      "width":"10%"
+
     # Keep it tidy, m'love
     #console.clear()
     #set a fallback reference
     window.pointer = @
     # Any method that 'this' needs to be in
-    _.bindAll @, "addToScene", "update", "draw", "addFog", "ignition", "test", "initialize"
+    _.bindAll @, "addToScene", "update", "draw", "addFog", "ignition", "test", "initialize", "enableMouse"
 
     # get the data needed to start everythign up.
     # data located in config.json
@@ -24,13 +19,12 @@ class Engine
   initialized: false
 
   initialize:  (ctx) ->
-
+    @load.progress(80)
     # Initialize the engine based off of
     # settings described in config.json
     config = @config.defaults
 
     console.log "Loading with default configuration:"
-    console.log config
 
     console.log "Initializing Engine."
     WIDTH = @screen.getWidth()
@@ -47,8 +41,9 @@ class Engine
 
     # inject the canvas
     # if not already present
+    @load.progress(100, @)
 
-    if ( !($('canvas')[0]) or !$('#screen') )
+    if ( !$('#screen') is false )
       $('.game').append( @renderer.domElement )
       $('canvas').attr({'id':"screen"})
 
@@ -61,18 +56,47 @@ class Engine
     @camera.position.x = config.camera.start.x
     #@camera.rotation.x = -0.45
     @initialized = true
+    
     @addFog()
     
-  loadScreen:
+  load:
     start: ->
       console.log "Loading"
+      $('body').append "<div class='loading'><h1>Loading</h1></div>"
+      $('.loading').append "<canvas id='loading_bar'> </canvas>"
+      $('.loading').css
+        "position":"absolute"
+        "top":"35%"
+        "left":"35%"
+        "width":"10%"
+      $('#loading_bar').css
+        "background-color":"#fff"
+        "width":"100px"
+        "height":"15px"
+        "border":"1px solid #ddd"
+    progress: (amount, ctx) ->
+      #c = context
+      if amount is 100
+        ctx.load.done()
+        return
+      cvs = document.getElementById('loading_bar')
+      c = cvs.getContext('2d')
+      c.fillStyle = "#000"
+
+      c.fillRect 0,0,amount,150
+
+
+
     done: ->
+      $('div.loading').remove()
+      $('loading_bar').remove()
       console.log "done"
 
   config:
     load: (ctx) ->
       #check to see if there is a cookie with configurations in it.
 
+      ctx.load.start()
 
       # @ is the config object
       console.log "Retrieving Configuration File: config.json"
@@ -80,19 +104,19 @@ class Engine
 
       #ajax request
       JSON = $.getJSON "js/game/config/config.json"
+      JSON.done ->
+        ctx.load.progress(15)
 
       # when done, 
       JSON.complete ->
-
+        ctx.load.progress(60)
         # attach to the Engine object as the 'defaults'
         ctx.config.defaults = jQuery.parseJSON JSON.responseText
         # Now we're ready to kick off the Engine
         console.log "Config Loaded."
+        ctx.load.progress(70)
+
         ctx.initialize(ctx)
-
-        
-
-
     saveToCookie: (configuration) ->
       console.log "Saving to cookie."
 
@@ -107,7 +131,7 @@ class Engine
 
     color = fogColor or 0xeeeeee
 
-    @renderer.setClearColor(color, 1)
+    @renderer.setClearColor(color, 0.2)
     @renderer.clear()
 
     fog = new THREE.Fog( color, 0, 2000 )
@@ -131,7 +155,9 @@ class Engine
   enableMouse: ->
     
     @controller.orbit = new THREE.OrbitControls @camera, document.getElementById('screen') 
-    @controller.orbit.userPanSpeed = 1.5
+    @controller.orbit.userZoom = true
+    @controller.orbit.userPan = true
+    @controller.orbit.autoRotate = true
     ### For containing controls:
      @src https://github.com/mrdoob/three.js/blob/master/examples/js/controls/OrbitControls.js
     ###
@@ -186,17 +212,9 @@ class Engine
     ###
     # @STAGE
     ###
-    @stage = new Stage " test"
+    @stage = new Stage "test", @config.defaults.world
     @stage.makeFlat(15,15)
-    @stage.build 
-      width:  @config.defaults.world.block.width
-      height: @config.defaults.world.block.height
-      depth:  @config.defaults.world.block.depth
-    ,
-      color: 0x008888
-      wireframe: false
-      wireframeLinewidth: 5.0
-          # ( dir, origin, length, hex )
+    @stage.build().mergeActors()
     dir = new THREE.ArrowHelper( (new THREE.Vector3( 0, -2, 0 )), (new THREE.Vector3( 0, 100, 0 )), 30, 0x771111 ) 
     @scene.add dir
     @stage.addToScene()

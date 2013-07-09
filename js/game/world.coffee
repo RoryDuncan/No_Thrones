@@ -15,9 +15,10 @@
 ###
 
 class Stage
-  constructor: (name) ->
+  constructor: (name, config) ->
     @name = name
     @title = "World " + name
+    @config = config || false
     console.log @
   data: []
   actors: []
@@ -148,35 +149,50 @@ class Stage
   ###
   build: (cubeGeometry, cubeMaterial, origin) ->
 
-    baseHeight = cubeGeometry.height
+    # Stage.build() is the transient
+    # between data and visual objects
+
+    
+
     #console.clear()
     # Params are passed through from Stage.build()
     return console.error "I can't build without any lumber. (psst, data is missing)" if @data.length is 0
 
-    margin = 0.001
+    ### @CONFIGURATION  ###
 
-    # origin is the relative position that 
-    # the stage starts building itself from.
+    geometry = @config.geometry
+    material = @config.material
+    material.color = parseInt(material.color, 16)
+    console.log material.color
+    console.log (parseInt(material.color, 16) )
+
+    ###  @SETTINGS   ###
+
     origin = new THREE.Vector3( 0, 0, 0 ) if origin is undefined
+    baseHeight = geometry.height
+    width = geometry.width
+    depth = geometry.depth
+    margin = geometry.margin
 
-    
     console.groupCollapsed "Building..."
+
+    ###  @PROCESS  ###
+
     for datum in @data
 
-      cubeGeometry.height = (baseHeight-1) *  datum.y
+      height = (baseHeight-1) *  datum.y
+
       # position based on it's position on the "grid".
-      position = new THREE.Vector3 datum.x*( cubeGeometry.width )+( datum.x*margin ), (cubeGeometry.height/2), datum.z*( cubeGeometry.depth )+( datum.z*margin )
+      position = new THREE.Vector3 datum.x*( width )+( datum.x*margin ), (height/2), datum.z*( depth )+( datum.z*margin )
 
       # add the blocks
-      actor = new Cube( cubeGeometry, cubeMaterial, position)
+      actor = new Cube( geometry, material, position)
       
       # keep the data in the new object
-      # for later references.
+      # for future references.
       actor.from = datum
 
       @actors.push actor
-    
-    console.log @actors
 
     console.groupEnd "Building..."
     return @

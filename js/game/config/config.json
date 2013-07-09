@@ -8,16 +8,21 @@
     		"y" : 200,
     		"z" : 600
     	}
-	},
-	"renderer" :{
+	 },
+	"renderer" : {
 		"antialiasing" : true
-	},
+	 },
 	"world" : {
-		"block" : {
+		"geometry" : {
 			"width": 25,
         	"depth": 25,
         	"height": 5,
-        	"color": "0xffffff"
+        	"margin": 1
+       		},
+        "material" : {
+        	"color": "0x444466",
+      		"wireframe": false,
+      		"wireframeLinewidth": 5
 		}
 	}
 }
