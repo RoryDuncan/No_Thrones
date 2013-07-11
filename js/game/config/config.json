@@ -10,7 +10,9 @@
     	}
 	 },
 	"renderer" : {
-		"antialiasing" : true
+		"antialiasing" : false,
+		"fogColor": "0x60aee4",
+		"fogOpacity": 1.0
 	 },
 	"world" : {
 		"geometry" : {
@@ -20,11 +22,22 @@
         	"margin": 0.5
        		},
         "material" : {
-        	"color": "0x444466",
+        	"color": "0x0088aa",
       		"wireframe": false,
       		"wireframeLinewidth": 5
 		}
 	},
-	"heightmap" : [ 2,2,2,2,2, 2,2,2,2,2, 2,3,2,2,2, 2,2,2,2,2, 2,2,2,2,2]
+	"heightmap" : {
+		"length" : 5,
+		"width" : 5,
+		"data" :
+			[ 1,3,5,7,9,
+			  0,0,0,0,9,
+			  17,19,21,23,9,
+			  17,29,27,25,9,
+			  17,15,13,11,9
+			]
+	}
+
 
 }

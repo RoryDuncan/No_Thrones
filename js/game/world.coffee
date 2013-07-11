@@ -68,14 +68,20 @@ class Stage
 
 
 
-  makeFromHeightMap: (heightMap, length, width) ->
-    if heightMap or length or width is undefined
-      return console.error "Missing parameter of Stage.makeFromHeightMap. 3 Parameters required."
-    total = heightMap.length
+  makeFromHeightMap: (height_map) ->
+
+    console.group "INPUTS"
+    console.log height_map
+    console.groupEnd "INPUTS"
+    if height_map.length is 0
+      return console.error "Height Map must be an array."
+
+    total = height_map.length * height_map.width
+
     @settings =
-      rows: width
-      cols: length
-      stacks: peak
+      rows: height_map.width
+      cols: height_map.length
+
 
     #__ resets __#
     @data = []
@@ -84,16 +90,16 @@ class Stage
     y = 0
     z = 0
 
-    for eachSquare in [0..total]
+    for eachSquare in [0..total-1]
 
 
-      z += 1 if x is width # increment for every complete row
-      x = 0 if x is width # after the y increment, reset x to start to the first in the row
+      z += 1 if x is height_map.width # increment for every complete row
+      x = 0 if x is height_map.width # after the y increment, reset x to start to the first in the row
       
       @data.push
         'id': eachSquare
         'x' : x
-        'y' : 1 + ~~( Math.random()*10 )
+        'y' : height_map.data[eachSquare]
         'z' : z
       x++
       @size++
@@ -158,7 +164,7 @@ class Stage
     # between data and visual objects
 
     # Params are passed through from Stage.build()
-    return console.error "I can't build without any lumber. (psst, data is missing)" if @data.length is 0
+    return console.error "I can't build without any lumber. ( data is missing)" if @data.length is 0
 
     ### @CONFIGURATION  ###
 
@@ -186,6 +192,7 @@ class Stage
       position = new THREE.Vector3 datum.x*( width )+( datum.x*margin ), (height/2), datum.z*( depth )+( datum.z*margin )
 
       # add the blocks
+      geometry.height = height
       actor = new Cube( geometry, material, position)
       
       # keep the data in the new object

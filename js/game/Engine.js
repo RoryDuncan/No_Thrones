@@ -116,11 +116,12 @@ Engine = (function() {
   };
 
   Engine.prototype.addFog = function(fogColor) {
-    var color, fog;
-    color = fogColor || 0xeeeeee;
-    this.renderer.setClearColor(color, 0.2);
+    var color, fog, opacity;
+    color = parseInt(this.config.defaults.renderer.fogColor);
+    opacity = this.config.defaults.renderer.fogOpacity;
+    this.renderer.setClearColor(color, opacity);
     this.renderer.clear();
-    fog = new THREE.Fog(color, 0, 2000);
+    fog = new THREE.Fog(color, -1000, 3000);
     this.scene.fog = fog;
     return this.test();
   };
@@ -184,19 +185,20 @@ Engine = (function() {
     # @PLANE
     */
 
-    planeGeo = new THREE.PlaneGeometry(1, 1, 10, 10);
+    planeGeo = new THREE.PlaneGeometry(10000, 10000, 10, 10);
     planeMat = new THREE.MeshLambertMaterial({
-      color: 0xe6e6e6
+      color: 0x000000
     });
     plane = new THREE.Mesh(planeGeo, planeMat);
     plane.rotation.x = -Math.PI / 2;
-    plane.position.y = -30;
+    plane.position.y = -100;
     plane.receiveShadow = true;
     this.addToScene([plane, this.spotLight]);
     /*
     # @STAGE
     */
 
+    console.log(this.config.defaults.heightmap);
     this.stage = new Stage("test", this.config.defaults.world);
     this.stage.makeFromHeightMap(this.config.defaults.heightmap, 5, 5);
     this.stage.build();

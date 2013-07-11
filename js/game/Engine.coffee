@@ -129,12 +129,13 @@ class Engine
 
   addFog: ( fogColor ) ->
 
-    color = fogColor or 0xeeeeee
+    color = parseInt(@config.defaults.renderer.fogColor)
+    opacity = @config.defaults.renderer.fogOpacity
 
-    @renderer.setClearColor(color, 0.2)
+    @renderer.setClearColor(color, opacity)
     @renderer.clear()
 
-    fog = new THREE.Fog( color, 0, 2000 )
+    fog = new THREE.Fog( color, -1000, 3000 )
     @scene.fog = fog
     @test()
 
@@ -198,11 +199,11 @@ class Engine
     ###
     # @PLANE
     ###
-    planeGeo = new THREE.PlaneGeometry(1, 1, 10, 10)
-    planeMat = new THREE.MeshLambertMaterial({color: 0xe6e6e6})
+    planeGeo = new THREE.PlaneGeometry(10000, 10000, 10, 10)
+    planeMat = new THREE.MeshLambertMaterial({color: 0x000000})
     plane = new THREE.Mesh( planeGeo, planeMat)
     plane.rotation.x = -Math.PI/2
-    plane.position.y = -30
+    plane.position.y = -100
     plane.receiveShadow = true
 
     #@scene.add @plane
@@ -212,6 +213,8 @@ class Engine
     ###
     # @STAGE
     ###
+
+    console.log @config.defaults.heightmap
     @stage = new Stage "test", @config.defaults.world
     @stage.makeFromHeightMap(@config.defaults.heightmap, 5, 5)
     @stage.build()

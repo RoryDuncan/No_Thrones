@@ -78,16 +78,18 @@ Stage = (function() {
     return _results;
   };
 
-  Stage.prototype.makeFromHeightMap = function(heightMap, length, width) {
-    var eachSquare, total, x, y, z, _i, _results;
-    if (heightMap || length || width === void 0) {
-      return console.error("Missing parameter of Stage.makeFromHeightMap. 3 Parameters required.");
+  Stage.prototype.makeFromHeightMap = function(height_map) {
+    var eachSquare, total, x, y, z, _i, _ref, _results;
+    console.group("INPUTS");
+    console.log(height_map);
+    console.groupEnd("INPUTS");
+    if (height_map.length === 0) {
+      return console.error("Height Map must be an array.");
     }
-    total = heightMap.length;
+    total = height_map.length * height_map.width;
     this.settings = {
-      rows: width,
-      cols: length,
-      stacks: peak
+      rows: height_map.width,
+      cols: height_map.length
     };
     this.data = [];
     this.size = 0;
@@ -95,17 +97,17 @@ Stage = (function() {
     y = 0;
     z = 0;
     _results = [];
-    for (eachSquare = _i = 0; 0 <= total ? _i <= total : _i >= total; eachSquare = 0 <= total ? ++_i : --_i) {
-      if (x === width) {
+    for (eachSquare = _i = 0, _ref = total - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; eachSquare = 0 <= _ref ? ++_i : --_i) {
+      if (x === height_map.width) {
         z += 1;
       }
-      if (x === width) {
+      if (x === height_map.width) {
         x = 0;
       }
       this.data.push({
         'id': eachSquare,
         'x': x,
-        'y': 1 + ~~(Math.random() * 10),
+        'y': height_map.data[eachSquare],
         'z': z
       });
       x++;
@@ -175,7 +177,7 @@ Stage = (function() {
   Stage.prototype.build = function(cubeGeometry, cubeMaterial, origin) {
     var actor, baseHeight, datum, depth, geometry, height, margin, material, position, width, _i, _len, _ref;
     if (this.data.length === 0) {
-      return console.error("I can't build without any lumber. (psst, data is missing)");
+      return console.error("I can't build without any lumber. ( data is missing)");
     }
     /* @CONFIGURATION
     */
@@ -202,6 +204,7 @@ Stage = (function() {
       datum = _ref[_i];
       height = (baseHeight - 1) * datum.y;
       position = new THREE.Vector3(datum.x * width + (datum.x * margin), height / 2, datum.z * depth + (datum.z * margin));
+      geometry.height = height;
       actor = new Cube(geometry, material, position);
       actor.from = datum;
       this.actors.push(actor);
